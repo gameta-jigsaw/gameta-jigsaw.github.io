@@ -11,3 +11,10 @@ body {
 h1 {
     text-align: center;
 }
+
+.piece {
+  position: absolute;
+  border: 1px solid black;
+  background-repeat: no-repeat;
+  background-size: 500% 500%;
+}
