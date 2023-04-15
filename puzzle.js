@@ -41,7 +41,8 @@ function drawPieces(pieces) {
         const sy = Math.floor(piece / gridSize) * pieceSize;
         const dx = index % gridSize * pieceSize;
         const dy = Math.floor(index / gridSize) * pieceSize;
-        ctx.drawImage(img, sx, sy, pieceSize, pieceSize, dx, dy, pieceSize, pieceSize);
+        const gap = 2; // Change this value to adjust the size of the gap between pieces
+        ctx.drawImage(img, sx, sy, pieceSize - gap, pieceSize - gap, dx, dy, pieceSize - gap, pieceSize - gap);
     });
 }
 
