@@ -6,7 +6,7 @@ const img = new Image();
 img.src = `./${window.imgName}.jpg`;
 
 img.onload = function () {
-    const resizedImg = resizeImageToSquare(img);
+    const resizedImg = resizeImageToFitPuzzleArea(img);
     const pieces = createShuffledPieces();
     drawPieces(pieces, resizedImg);
 
@@ -88,14 +88,20 @@ function isSolvable(pieces, gridSize) {
     return gridSize % 2 === 1 ? inversions % 2 === 0 : Math.floor(pieces.indexOf(gridSize * gridSize - 1) / gridSize) % 2 === inversions % 2;
 }
 
-function resizeImageToSquare(image) {
-    const canvas = document.createElement('canvas');
-    const ctx = canvas.getContext('2d');
-    const size = Math.min(image.width, image.height);
-    canvas.width = size;
-    canvas.height = size;
-    ctx.drawImage(image, 0, 0, size, size);
-    const resizedImg = new Image();
-    resizedImg.src = canvas.toDataURL();
-    return resizedImg;
+function resizeImageToFitPuzzleArea(image) {
+  const canvas = document.createElement('canvas');
+  const ctx = canvas.getContext('2d');
+  canvas.width = canvas.height = 400; // Puzzle area size
+
+  const scaleFactor = Math.min(canvas.width / image.width, canvas.height / image.height);
+  const width = image.width * scaleFactor;
+  const height = image.height * scaleFactor;
+  const offsetX = (canvas.width - width) / 2;
+  const offsetY = (canvas.height - height) / 2;
+
+  ctx.drawImage(image, offsetX, offsetY, width, height);
+  const resizedImg = new Image();
+  resizedImg.src = canvas.toDataURL();
+  return resizedImg;
 }
+
