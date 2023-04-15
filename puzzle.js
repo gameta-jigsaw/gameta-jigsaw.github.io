@@ -6,9 +6,9 @@ const img = new Image();
 img.src = `./${window.imgName}.jpg`;
 
 img.onload = function () {
-  const resizedImg = resizeImageToSquare(img);
-  const pieces = createShuffledPieces();
-  drawPieces(pieces, resizedImg);
+    const resizedImg = resizeImageToSquare(img);
+    const pieces = createShuffledPieces();
+    drawPieces(pieces, resizedImg);
 
     canvas.addEventListener('click', (event) => {
         const [x, y] = getClickedPosition(event);
@@ -17,13 +17,12 @@ img.onload = function () {
             const emptyPieceIndex = findEmptyPiece(pieces);
             if (areNeighbors(clickedPieceIndex, emptyPieceIndex, gridSize)) {
                 swapPieces(pieces, clickedPieceIndex, emptyPieceIndex);
-                drawPieces(pieces);
+                drawPieces(pieces, resizedImg);
             }
         }
     });
 };
 
-// Additional helper functions (add these to the same puzzle.js file)
 function createShuffledPieces() {
     const pieceCount = gridSize * gridSize;
     const pieces = Array.from({ length: pieceCount }, (_, i) => i).sort(() => Math.random() - 0.5);
@@ -34,7 +33,7 @@ function createShuffledPieces() {
     return pieces;
 }
 
-function drawPieces(pieces) {
+function drawPieces(pieces, resizedImg) {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     pieces.forEach((piece, index) => {
         if (piece === gridSize * gridSize - 1) return;
@@ -43,7 +42,7 @@ function drawPieces(pieces) {
         const dx = index % gridSize * pieceSize;
         const dy = Math.floor(index / gridSize) * pieceSize;
         const gap = 2; // Change this value to adjust the size of the gap between pieces
-        ctx.drawImage(img, sx, sy, pieceSize - gap, pieceSize - gap, dx, dy, pieceSize - gap, pieceSize - gap);
+        ctx.drawImage(resizedImg, sx, sy, pieceSize - gap, pieceSize - gap, dx, dy, pieceSize - gap, pieceSize - gap);
     });
 }
 
@@ -90,13 +89,13 @@ function isSolvable(pieces, gridSize) {
 }
 
 function resizeImageToSquare(image) {
-  const canvas = document.createElement('canvas');
-  const ctx = canvas.getContext('2d');
-  const size = Math.min(image.width, image.height);
-  canvas.width = size;
-  canvas.height = size;
-  ctx.drawImage(image, 0, 0, size, size);
-  const resizedImg = new Image();
-  resizedImg.src = canvas.toDataURL();
-  return resizedImg;
+    const canvas = document.createElement('canvas');
+    const ctx = canvas.getContext('2d');
+    const size = Math.min(image.width, image.height);
+    canvas.width = size;
+    canvas.height = size;
+    ctx.drawImage(image, 0, 0, size, size);
+    const resizedImg = new Image();
+    resizedImg.src = canvas.toDataURL();
+    return resizedImg;
 }
