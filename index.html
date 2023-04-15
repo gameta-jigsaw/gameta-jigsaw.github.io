@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jigsaw Puzzle</title>
+    <link rel="stylesheet" href="styles.css">
+    <script>
+        window.imgName = (function() {
+            const path = window.location.pathname;
+            const imgName = path.substring(path.lastIndexOf('/') + 1);
+            return imgName || 'default-image';
+        })();
+    </script>
+</head>
+<body>
+    <h1>6x6 Jigsaw Puzzle</h1>
+    <canvas id="puzzleCanvas" width="600" height="600"></canvas>
+    <script src="puzzle.js"></script>
+</body>
+</html>
