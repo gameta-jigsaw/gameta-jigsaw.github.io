@@ -1,11 +1,17 @@
 body {
   background-color: #1a001a;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   height: 100vh;
   margin: 0;
   font-family: 'Arial', sans-serif;
+}
+
+h1 {
+  color: #ffffff;
+  margin-bottom: 1rem;
 }
 
 canvas {
