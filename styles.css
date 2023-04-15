@@ -24,9 +24,3 @@ canvas {
   border: 2px solid #ffffff;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
 }
-
-.piece {
-  position: absolute;
-  background-repeat: no-repeat;
-  background-size: 500% 500%;
-}
