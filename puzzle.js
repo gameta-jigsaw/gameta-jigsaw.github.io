@@ -3,7 +3,7 @@ const ctx = canvas.getContext('2d');
 const gridSize = 6;
 const pieceSize = canvas.width / gridSize;
 const img = new Image();
-img.src = `./${window.imgName}.JPG`;
+img.src = `./${window.imgName}.jpg`;
 
 img.onload = function () {
     const pieces = createShuffledPieces();
