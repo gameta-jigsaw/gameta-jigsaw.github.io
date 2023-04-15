@@ -6,8 +6,9 @@ const img = new Image();
 img.src = `./${window.imgName}.jpg`;
 
 img.onload = function () {
-    const pieces = createShuffledPieces();
-    drawPieces(pieces);
+  const resizedImg = resizeImageToSquare(img);
+  const pieces = createShuffledPieces();
+  drawPieces(pieces, resizedImg);
 
     canvas.addEventListener('click', (event) => {
         const [x, y] = getClickedPosition(event);
@@ -86,4 +87,16 @@ function isSolvable(pieces, gridSize) {
         }
     }
     return gridSize % 2 === 1 ? inversions % 2 === 0 : Math.floor(pieces.indexOf(gridSize * gridSize - 1) / gridSize) % 2 === inversions % 2;
+}
+
+function resizeImageToSquare(image) {
+  const canvas = document.createElement('canvas');
+  const ctx = canvas.getContext('2d');
+  const size = Math.min(image.width, image.height);
+  canvas.width = size;
+  canvas.height = size;
+  ctx.drawImage(image, 0, 0, size, size);
+  const resizedImg = new Image();
+  resizedImg.src = canvas.toDataURL();
+  return resizedImg;
 }
