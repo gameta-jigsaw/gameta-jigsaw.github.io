@@ -13,7 +13,7 @@
         <canvas id="puzzleCanvas" width="800" height="800"></canvas>
     </div>
     <script>
-        window.imgName = window.location.hash.substr(1);
+        window.imgName = window.location.search.substr(1).split('=')[1];
         document.title = window.imgName;
     </script>
     <script src="puzzle.js"></script>
