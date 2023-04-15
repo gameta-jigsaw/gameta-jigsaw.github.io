@@ -1,6 +1,6 @@
 const canvas = document.getElementById('puzzleCanvas');
 const ctx = canvas.getContext('2d');
-const gridSize = 6;
+const gridSize = 5;
 const pieceSize = canvas.width / gridSize;
 const img = new Image();
 img.src = `./${window.imgName}.jpg`;
