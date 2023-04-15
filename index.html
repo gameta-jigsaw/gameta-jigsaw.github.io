@@ -4,17 +4,18 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Jigsaw Puzzle</title>
-    <link rel="stylesheet" href="./styles.css">
+    <title>Hippo Jigsaw</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <div class="container">
-        <canvas id="puzzleCanvas" width="400" height="400"></canvas>
+        <h1>Hippo Jigsaw</h1>
+        <canvas id="puzzleCanvas" width="800" height="800"></canvas>
     </div>
     <script>
-        window.imgName = window.location.search.substr(1).split('=')[1];
+        window.imgName = window.location.hash.substr(1);
         document.title = window.imgName;
     </script>
-    <script src="./puzzle.js"></script>
+    <script src="puzzle.js"></script>
 </body>
 </html>
