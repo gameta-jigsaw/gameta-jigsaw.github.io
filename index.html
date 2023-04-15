@@ -4,16 +4,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Jigsaw Puzzle</title>
-    <link rel="stylesheet" href="styles.css">
-    <script>
-        window.imgName = (function() {
-            const urlParams = new URLSearchParams(window.location.search);
-            return urlParams.get('img') || 'default-image';
-        })();
-    </script>
+    <link rel="stylesheet" href="./styles.css">
 </head>
 <body>
-    <canvas id="puzzleCanvas" width="600" height="600"></canvas>
-    <script src="puzzle.js"></script>
+    <div class="container">
+        <h1>4x4 Jigsaw Puzzle</h1>
+        <canvas id="puzzleCanvas" width="400" height="400"></canvas>
+    </div>
+    <script>
+        window.imgName = new URLSearchParams(window.location.search).get('img');
+    </script>
+    <script src="./puzzle.js"></script>
 </body>
 </html>
