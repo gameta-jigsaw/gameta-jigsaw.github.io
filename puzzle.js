@@ -29,8 +29,7 @@ function loadImage(src) {
 function initPuzzle(resizedImg) {
   const pieces = createShuffledPieces();
   drawPieces(pieces, resizedImg);
-
-  referenceCtx.drawImage(resizedImg, 0, 0, referenceCanvas.width, referenceCanvas.height);
+  drawReferencePuzzle(resizedImg);
 
   canvas.addEventListener('click', (event) => {
     if (!isTimerStarted) {
@@ -48,6 +47,30 @@ function initPuzzle(resizedImg) {
       }
     }
   });
+}
+
+function drawReferencePuzzle(resizedImg) {
+  const referenceScaleFactor = 0.5; // Adjust this value to change the size of the reference puzzle
+  const referencePieceSize = referenceCanvas.width / gridSize;
+
+  for (let i = 0; i < gridSize * gridSize; i++) {
+    const sx = (i % gridSize) * pieceSize;
+    const sy = Math.floor(i / gridSize) * pieceSize;
+    const dx = (i % gridSize) * referencePieceSize;
+    const dy = Math.floor(i / gridSize) * referencePieceSize;
+
+    referenceCtx.drawImage(
+      resizedImg,
+      sx,
+      sy,
+      pieceSize,
+      pieceSize,
+      dx,
+      dy,
+      referencePieceSize * referenceScaleFactor,
+      referencePieceSize * referenceScaleFactor
+    );
+  }
 }
 
 function startTimer() {
