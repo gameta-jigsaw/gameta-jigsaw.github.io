@@ -23,15 +23,9 @@ function loadImage(src) {
 }
 
 (async () => {
-  const corsProxy = "https://cors.bridged.cc/";
-  const response = await fetch(
-      corsProxy + "https://api.github.com/repos/gameta-jigsaw/gameta-jigsaw.github.io/contents/Jigsaw?ref=main"
-  );
-  const files = await response.json();
-  const imageLinks = files
-    .map((file) => file.download_url)
-    .filter((url) => url.match(/\.(jpg|jpeg|png|gif)$/i));
-
+  const response = await fetch('./Jigsaw/images.json');
+  const data = await response.json();
+  const imageLinks = data.images.map(filename => `./Jigsaw/${filename}`);
   const randomImage = imageLinks[Math.floor(Math.random() * imageLinks.length)];
 
   const resizedImg = await loadImage(randomImage);
