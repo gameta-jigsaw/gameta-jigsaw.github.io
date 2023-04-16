@@ -3,14 +3,16 @@ const ctx = canvas.getContext('2d');
 const gridSize = 4;
 const pieceSize = canvas.width / gridSize;
 const img = new Image();
-img.src = `./${window.imgName}.jpg`;
 
 let timerInterval;
 let startTime;
 let isTimerStarted = false;
 
-img.onload = function () {
-  initPuzzle();
+window.onload = function () {
+  img.onload = function () {
+    initPuzzle();
+  };
+  img.src = `./${window.imgName}.jpg`;
 };
 
 function initPuzzle() {
