@@ -52,13 +52,34 @@ function initPuzzle(resizedImg) {
 
 function drawReferencePuzzle(resizedImg) {
   const refCtx = referenceCanvas.getContext('2d');
-  const scaleFactor = Math.min(referenceCanvas.width / resizedImg.width, referenceCanvas.height / resizedImg.height);
-  const width = resizedImg.width * scaleFactor;
-  const height = resizedImg.height * scaleFactor;
-  const offsetX = (referenceCanvas.width - width) / 2;
-  const offsetY = (referenceCanvas.height - height) / 2;
+  const refGridSize = gridSize * 2; // Scale down the gridSize for the reference puzzle
+  const refPieceSize = referenceCanvas.width / refGridSize;
 
-  refCtx.drawImage(resizedImg, offsetX, offsetY, width, height);
+  for (let row = 0; row < gridSize; row++) {
+    for (let col = 0; col < gridSize; col++) {
+      if (row === gridSize - 1 && col === gridSize - 1) {
+        continue; // Skip the bottom-right piece
+      }
+
+      const sx = col * pieceSize;
+      const sy = row * pieceSize;
+      const dx = col * refPieceSize;
+      const dy = row * refPieceSize;
+      const gap = 1; // Adjust the size of the gap between pieces for the reference puzzle
+
+      refCtx.drawImage(
+        resizedImg,
+        sx,
+        sy,
+        pieceSize - gap,
+        pieceSize - gap,
+        dx,
+        dy,
+        refPieceSize - gap,
+        refPieceSize - gap
+      );
+    }
+  }
 }
 
 function startTimer() {
