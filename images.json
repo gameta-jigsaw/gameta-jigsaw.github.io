@@ -1,5 +1,7 @@
-[
-    "Jigsaw/8081.jpg",
-    "Jigsaw/841.jpg",
-    "Jigsaw/8507.jpg"
-]
+{
+  "images": [
+    "8081.jpg",
+    "841.jpg",
+    "8507.jpg"
+  ]
+}
