@@ -14,8 +14,7 @@ body {
   align-items: center;
   width: 100%;
   position: relative;
-  padding-top: 80px;
-  margin-top: 30px;
+  padding-top: 120px;
 }
 
 header {
@@ -72,13 +71,13 @@ canvas {
 
 .timer-wrapper {
   position: absolute;
-  top: 70px;
+  top: 70px; 
   left: 50%; 
+  transform: translateX(-50%);
   background-color: white;
   border-radius: 5px;
   padding: 5px 10px;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
-  transform: translateX(-50%);
 }
 
 #timer {
@@ -86,4 +85,3 @@ canvas {
   font-weight: bold;
   color: black;
 }
-
