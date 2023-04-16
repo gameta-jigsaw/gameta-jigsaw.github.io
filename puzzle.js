@@ -28,6 +28,10 @@ function loadImage(src) {
   drawReferencePuzzle(resizedImg);
 })();
 
+function drawPieces(pieces, resizedImg) {
+  drawPiecesOnCanvas(ctx, pieces, resizedImg, pieceSize);
+}
+
 function initPuzzle(resizedImg) {
   const pieces = createShuffledPieces();
   drawPieces(pieces, resizedImg);
