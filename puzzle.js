@@ -52,8 +52,6 @@ function initPuzzle(resizedImg) {
 
 function drawReferencePuzzle(resizedImg) {
   const refCtx = referenceCanvas.getContext('2d');
-  const refGridSize = gridSize * 2; // Scale down the gridSize for the reference puzzle
-  const refPieceSize = referenceCanvas.width / refGridSize;
 
   for (let row = 0; row < gridSize; row++) {
     for (let col = 0; col < gridSize; col++) {
@@ -63,8 +61,8 @@ function drawReferencePuzzle(resizedImg) {
 
       const sx = col * pieceSize;
       const sy = row * pieceSize;
-      const dx = col * refPieceSize;
-      const dy = row * refPieceSize;
+      const dx = col * referencePieceSize;
+      const dy = row * referencePieceSize;
       const gap = 1; // Adjust the size of the gap between pieces for the reference puzzle
 
       refCtx.drawImage(
@@ -75,8 +73,8 @@ function drawReferencePuzzle(resizedImg) {
         pieceSize - gap,
         dx,
         dy,
-        refPieceSize - gap,
-        refPieceSize - gap
+        referencePieceSize - gap,
+        referencePieceSize - gap
       );
     }
   }
