@@ -19,7 +19,8 @@ header {
   align-items: center;
   height: 60px;
   background-color: #1a001a;
-  padding-left: 20px; 
+  padding-left: 10px; 
+  padding-top: 10px; 
 }
 
 #logo {
