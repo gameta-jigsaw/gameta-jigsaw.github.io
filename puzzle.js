@@ -162,6 +162,10 @@ function drawReferencePuzzle(resizedImg) {
   }
 }
 
+function drawPieces(pieces, resizedImg) {
+  drawPiecesOnCanvas(ctx, pieces, resizedImg, pieceSize);
+}
+
 function startTimer() {
   startTime = new Date();
   timerInterval = setInterval(updateTimer, 1000);
