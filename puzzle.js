@@ -32,12 +32,12 @@ function loadImage(src) {
     .filter((url) => url.match(/\.(jpg|jpeg|png|gif)$/i));
 
   const randomImage = imageLinks[Math.floor(Math.random() * imageLinks.length)];
-  const imgName = randomImage.slice(0, -4); // Remove the file extension
 
   const resizedImg = await loadImage(randomImage);
   initPuzzle(resizedImg);
   drawReferencePuzzle(resizedImg);
 })();
+
 
 function drawPieces(pieces, resizedImg) {
   drawPiecesOnCanvas(ctx, pieces, resizedImg, pieceSize);
