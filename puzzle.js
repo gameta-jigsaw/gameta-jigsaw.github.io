@@ -23,24 +23,21 @@ function loadImage(src) {
 }
 
 (async () => {
-  const response = await fetch("./Jigsaw/");
-  const text = await response.text();
-  const parser = new DOMParser();
-  const doc = parser.parseFromString(text, "text/html");
-  const links = Array.from(doc.querySelectorAll("a[href]"));
-
-  const imageLinks = links
-    .map((link) => link.getAttribute("href"))
-    .filter((href) => href.match(/\.(jpg|jpeg|png|gif)$/i));
+  const response = await fetch(
+    "https://api.github.com/repos/gameta-jigsaw/gameta-jigsaw.github.io/contents/Jigsaw?ref=main"
+  );
+  const files = await response.json();
+  const imageLinks = files
+    .map((file) => file.download_url)
+    .filter((url) => url.match(/\.(jpg|jpeg|png|gif)$/i));
 
   const randomImage = imageLinks[Math.floor(Math.random() * imageLinks.length)];
   const imgName = randomImage.slice(0, -4); // Remove the file extension
 
-  const resizedImg = await loadImage(`./Jigsaw/${imgName}.jpg`);
+  const resizedImg = await loadImage(randomImage);
   initPuzzle(resizedImg);
   drawReferencePuzzle(resizedImg);
 })();
-
 
 function drawPieces(pieces, resizedImg) {
   drawPiecesOnCanvas(ctx, pieces, resizedImg, pieceSize);
