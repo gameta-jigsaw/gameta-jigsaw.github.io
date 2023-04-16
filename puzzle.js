@@ -5,23 +5,49 @@ const pieceSize = canvas.width / gridSize;
 const img = new Image();
 img.src = `./${window.imgName}.jpg`;
 
-img.onload = function () {
-    const resizedImg = resizeImageToFitPuzzleArea(img);
-    const pieces = createShuffledPieces();
-    drawPieces(pieces, resizedImg);
+let timerInterval;
+let startTime;
+let isTimerStarted = false;
 
-    canvas.addEventListener('click', (event) => {
-        const [x, y] = getClickedPosition(event);
-        const clickedPieceIndex = findPieceAtPosition(pieces, x, y);
-        if (clickedPieceIndex !== -1) {
-            const emptyPieceIndex = findEmptyPiece(pieces);
-            if (areNeighbors(clickedPieceIndex, emptyPieceIndex, gridSize)) {
-                swapPieces(pieces, clickedPieceIndex, emptyPieceIndex);
-                drawPieces(pieces, resizedImg);
-            }
-        }
-    });
+img.onload = function () {
+  const resizedImg = resizeImageToFitPuzzleArea(img);
+  const pieces = createShuffledPieces();
+  drawPieces(pieces, resizedImg);
+
+  canvas.addEventListener('click', (event) => {
+    if (!isTimerStarted) {
+      startTimer();
+      isTimerStarted = true;
+    }
+
+    const [x, y] = getClickedPosition(event);
+    const clickedPieceIndex = findPieceAtPosition(pieces, x, y);
+    if (clickedPieceIndex !== -1) {
+      const emptyPieceIndex = findEmptyPiece(pieces);
+      if (areNeighbors(clickedPieceIndex, emptyPieceIndex, gridSize)) {
+        swapPieces(pieces, clickedPieceIndex, emptyPieceIndex);
+        drawPieces(pieces, resizedImg);
+      }
+    }
+  });
 };
+
+function startTimer() {
+  startTime = new Date();
+  timerInterval = setInterval(updateTimer, 1000);
+}
+
+function updateTimer() {
+  const currentTime = new Date();
+  const elapsedTime = Math.floor((currentTime - startTime) / 1000);
+  const minutes = Math.floor(elapsedTime / 60);
+  const seconds = elapsedTime % 60;
+  document.getElementById('timer').textContent = `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+}
+
+function stopTimer() {
+  clearInterval(timerInterval);
+}
 
 function createShuffledPieces() {
     const pieceCount = gridSize * gridSize;
