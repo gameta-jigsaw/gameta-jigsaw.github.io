@@ -9,7 +9,11 @@ let timerInterval;
 let startTime;
 let isTimerStarted = false;
 
-window.addEventListener('load', () => {
+img.onload = function () {
+  initPuzzle();
+};
+
+function initPuzzle() {
   const resizedImg = resizeImageToFitPuzzleArea(img);
   const pieces = createShuffledPieces();
   drawPieces(pieces, resizedImg);
@@ -30,7 +34,7 @@ window.addEventListener('load', () => {
       }
     }
   });
-});
+}
 
 function startTimer() {
   startTime = new Date();
