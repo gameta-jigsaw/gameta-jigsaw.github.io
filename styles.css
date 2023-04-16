@@ -14,7 +14,7 @@ body {
   align-items: center;
   width: 100%;
   position: relative;
-  top: 10%; /* Adjust this value to move the timer and puzzle canvas higher or lower */
+  top: 25%; /* Adjust this value to move the timer and puzzle canvas higher or lower */
 }
 
 header {
