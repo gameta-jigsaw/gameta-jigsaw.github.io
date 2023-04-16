@@ -51,8 +51,14 @@ function initPuzzle(resizedImg) {
 }
 
 function drawReferencePuzzle(resizedImg) {
-  const pieces = Array.from({ length: gridSize * gridSize }, (_, i) => i);
-  drawPiecesOnCanvas(referenceCtx, pieces, resizedImg, referencePieceSize);
+  const refCtx = referenceCanvas.getContext('2d');
+  const scaleFactor = Math.min(referenceCanvas.width / resizedImg.width, referenceCanvas.height / resizedImg.height);
+  const width = resizedImg.width * scaleFactor;
+  const height = resizedImg.height * scaleFactor;
+  const offsetX = (referenceCanvas.width - width) / 2;
+  const offsetY = (referenceCanvas.height - height) / 2;
+
+  refCtx.drawImage(resizedImg, offsetX, offsetY, width, height);
 }
 
 function startTimer() {
