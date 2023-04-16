@@ -38,7 +38,6 @@ function loadImage(src) {
   drawReferencePuzzle(resizedImg);
 })();
 
-
 function drawPieces(pieces, resizedImg) {
   drawPiecesOnCanvas(ctx, pieces, resizedImg, pieceSize);
 }
