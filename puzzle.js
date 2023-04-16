@@ -23,7 +23,7 @@ function loadImage(src) {
 }
 
 (async () => {
-  const corsProxy = "https://cors-anywhere.herokuapp.com/";
+  const corsProxy = "https://cors.bridged.cc/";
   const response = await fetch(
       corsProxy + "https://api.github.com/repos/gameta-jigsaw/gameta-jigsaw.github.io/contents/Jigsaw?ref=main"
   );
