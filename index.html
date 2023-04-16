@@ -8,13 +8,15 @@
 </head>
 <body>
     <header>
-        <img src="./logo.png" alt="Your Logo" id="logo">
+        <img src="./logo.png" alt="Logo" id="logo">
     </header>
-    <div class="timer">
-        Time: <span id="timer">00:00</span>
-    </div>
-    <div class="container">
-        <canvas id="puzzleCanvas" width="400" height="400"></canvas>
+    <div class="main">
+        <div class="timer">
+            Time: <span id="timer">00:00</span>
+        </div>
+        <div class="container">
+            <canvas id="puzzleCanvas" width="400" height="400"></canvas>
+        </div>
     </div>
     <script>
         window.imgName = new URLSearchParams(window.location.search).get('img');
