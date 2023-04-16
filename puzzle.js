@@ -5,6 +5,7 @@ const pieceSize = canvas.width / gridSize;
 
 const referenceCanvas = document.getElementById('referenceCanvas');
 const referenceCtx = referenceCanvas.getContext('2d');
+const referencePieceSize = referenceCanvas.width / gridSize;
 
 let timerInterval;
 let startTime;
@@ -24,12 +25,12 @@ function loadImage(src) {
 (async () => {
   const resizedImg = await loadImage(`./${window.imgName}.jpg`);
   initPuzzle(resizedImg);
+  drawReferencePuzzle(resizedImg);
 })();
 
 function initPuzzle(resizedImg) {
   const pieces = createShuffledPieces();
   drawPieces(pieces, resizedImg);
-  drawReferencePuzzle(resizedImg);
 
   canvas.addEventListener('click', (event) => {
     if (!isTimerStarted) {
@@ -50,27 +51,8 @@ function initPuzzle(resizedImg) {
 }
 
 function drawReferencePuzzle(resizedImg) {
-  const referenceScaleFactor = 0.5; // Adjust this value to change the size of the reference puzzle
-  const referencePieceSize = referenceCanvas.width / gridSize;
-
-  for (let i = 0; i < gridSize * gridSize; i++) {
-    const sx = (i % gridSize) * pieceSize;
-    const sy = Math.floor(i / gridSize) * pieceSize;
-    const dx = (i % gridSize) * referencePieceSize;
-    const dy = Math.floor(i / gridSize) * referencePieceSize;
-
-    referenceCtx.drawImage(
-      resizedImg,
-      sx,
-      sy,
-      pieceSize,
-      pieceSize,
-      dx,
-      dy,
-      referencePieceSize * referenceScaleFactor,
-      referencePieceSize * referenceScaleFactor
-    );
-  }
+  const pieces = Array.from({ length: gridSize * gridSize }, (_, i) => i);
+  drawPiecesOnCanvas(referenceCtx, pieces, resizedImg, referencePieceSize);
 }
 
 function startTimer() {
@@ -101,7 +83,11 @@ function createShuffledPieces() {
 }
 
 function drawPieces(pieces, resizedImg) {
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  drawPiecesOnCanvas(ctx, pieces, resizedImg, pieceSize);
+}
+
+function drawPiecesOnCanvas(ctx, pieces, resizedImg, pieceSize) {
+  ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
   pieces.forEach((piece, index) => {
     if (piece === gridSize * gridSize - 1) return;
     const sx = piece % gridSize * pieceSize;
