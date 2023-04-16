@@ -23,7 +23,7 @@ function loadImage(src) {
 }
 
 (async () => {
-  const response = await fetch('images.json');
+  const response = await fetch("https://gameta.fun/images.json");
   const data = await response.json();
   const imageLinks = data.images.map(filename => `./Jigsaw/${filename}`);
   const randomImage = imageLinks[Math.floor(Math.random() * imageLinks.length)];
