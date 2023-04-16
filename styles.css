@@ -15,10 +15,11 @@ header {
   left: 0;
   right: 0;
   display: flex;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: center;
   height: 60px;
   background-color: #1a001a;
+  padding-left: 20px; 
 }
 
 .container {
@@ -44,3 +45,5 @@ canvas {
   margin-bottom: 1rem;
   font-size: 1.2rem;
 }
+
+
