@@ -52,7 +52,8 @@ function initPuzzle(resizedImg) {
 
         if (isSolved(pieces)) {
           stopTimer();
-          alert('Congratulations! You solved the puzzle!');
+          const elapsedTime = document.getElementById('timer').textContent;
+          alert(`Congratulations! You solved the puzzle in ${elapsedTime}!`);
         }
       }
     }
@@ -110,7 +111,7 @@ function createShuffledPieces() {
   const pieceCount = gridSize * gridSize;
   const pieces = Array.from({ length: pieceCount }, (_, i) => i);
 
-  const numberOfMoves = 70; // Adjust this value to change the difficulty level
+  const numberOfMoves = 30; // Adjust this value to change the difficulty level
 
   let emptyPieceIndex = pieceCount - 1;
 
