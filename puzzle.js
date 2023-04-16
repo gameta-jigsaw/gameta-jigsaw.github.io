@@ -92,16 +92,18 @@ function drawReferencePuzzle(resizedImg) {
 
 function startTimer() {
   startTime = new Date();
-  timerInterval = setInterval(updateTimer, 1000);
+  timerInterval = setInterval(updateTimer, 10); // Update to 10 for centiseconds
 }
 
 function updateTimer() {
   const currentTime = new Date();
-  const elapsedTime = Math.floor((currentTime - startTime) / 1000);
-  const minutes = Math.floor(elapsedTime / 60);
-  const seconds = elapsedTime % 60;
-  document.getElementById('timer').textContent = `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+  const elapsedTime = Math.floor((currentTime - startTime) / 10); // Update to 10 for centiseconds
+  const minutes = Math.floor(elapsedTime / 6000); // Update to 6000 for centiseconds
+  const seconds = Math.floor((elapsedTime % 6000) / 100); // Update to 100 for centiseconds
+  const centiseconds = elapsedTime % 100; // Add this line for centiseconds
+  document.getElementById('timer').textContent = `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}.${String(centiseconds).padStart(2, '0')}`;
 }
+
 
 function stopTimer() {
   clearInterval(timerInterval);
