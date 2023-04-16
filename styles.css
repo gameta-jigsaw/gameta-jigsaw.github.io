@@ -19,12 +19,12 @@ header {
   align-items: center;
   height: 60px;
   background-color: #1a001a;
-  padding-top: 10px; 
+  padding-top: 10px;
 }
 
 #logo {
-  height: 75px; 
-  width: auto; 
+  height: 75px;
+  width: auto;
 }
 
 .container {
@@ -32,6 +32,8 @@ header {
   flex-direction: column;
   align-items: center;
   width: 100%;
+  position: relative;
+  top: -50px; /* Adjust this value to move the timer and puzzle canvas higher or lower */
 }
 
 h1 {
@@ -50,5 +52,3 @@ canvas {
   margin-bottom: 1rem;
   font-size: 1.2rem;
 }
-
-
