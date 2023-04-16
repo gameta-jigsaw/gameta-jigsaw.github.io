@@ -99,17 +99,43 @@ function stopTimer() {
 
 function createShuffledPieces() {
   const pieceCount = gridSize * gridSize;
-  const pieces = Array.from({ length: pieceCount }, (_, i) => i).sort(() => Math.random() - 0.5);
-  if (!isSolvable(pieces, gridSize)) {
-    const nonEmptyIndices = pieces.filter(i => i !== pieceCount - 1);
-    swapPieces(pieces, nonEmptyIndices[0], nonEmptyIndices[1]);
+  const pieces = Array.from({ length: pieceCount }, (_, i) => i);
+
+  const numberOfMoves = 30; // Adjust this value to change the difficulty level
+
+  let emptyPieceIndex = pieceCount - 1;
+
+  for (let i = 0; i < numberOfMoves; i++) {
+    const possibleMoves = [
+      emptyPieceIndex - 1, // left
+      emptyPieceIndex + 1, // right
+      emptyPieceIndex - gridSize, // up
+      emptyPieceIndex + gridSize, // down
+    ].filter((move) => isValidMove(move, emptyPieceIndex, gridSize));
+
+    const randomMove = possibleMoves[Math.floor(Math.random() * possibleMoves.length)];
+
+    swapPieces(pieces, randomMove, emptyPieceIndex);
+    emptyPieceIndex = randomMove;
   }
+
   return pieces;
 }
 
-function drawPieces(pieces, resizedImg) {
-  drawPiecesOnCanvas(ctx, pieces, resizedImg, pieceSize);
+function isValidMove(move, emptyPieceIndex, gridSize) {
+  const row = Math.floor(emptyPieceIndex / gridSize);
+  const col = emptyPieceIndex % gridSize;
+  const moveRow = Math.floor(move / gridSize);
+  const moveCol = move % gridSize;
+
+  return (
+    move >= 0 &&
+    move < gridSize * gridSize &&
+    (Math.abs(row - moveRow) === 1 && col === moveCol) ||
+    (Math.abs(col - moveCol) === 1 && row === moveRow)
+  );
 }
+
 
 function drawPiecesOnCanvas(ctx, pieces, resizedImg, pieceSize) {
   ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
