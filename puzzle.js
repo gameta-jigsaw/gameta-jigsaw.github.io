@@ -3,6 +3,9 @@ const ctx = canvas.getContext('2d');
 const gridSize = 4;
 const pieceSize = canvas.width / gridSize;
 
+const referenceCanvas = document.getElementById('referenceCanvas');
+const referenceCtx = referenceCanvas.getContext('2d');
+
 let timerInterval;
 let startTime;
 let isTimerStarted = false;
@@ -26,6 +29,8 @@ function loadImage(src) {
 function initPuzzle(resizedImg) {
   const pieces = createShuffledPieces();
   drawPieces(pieces, resizedImg);
+
+  referenceCtx.drawImage(resizedImg, 0, 0, referenceCanvas.width, referenceCanvas.height);
 
   canvas.addEventListener('click', (event) => {
     if (!isTimerStarted) {
