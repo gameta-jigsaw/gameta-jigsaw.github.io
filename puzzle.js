@@ -3,16 +3,13 @@ const ctx = canvas.getContext('2d');
 const gridSize = 4;
 const pieceSize = canvas.width / gridSize;
 const img = new Image();
+img.src = `./${window.imgName}.jpg`;
 
 let timerInterval;
 let startTime;
 let isTimerStarted = false;
 
-setTimeout(() => {
-  img.src = `./${window.imgName}.jpg`;
-}, 100);
-
-img.onload = function () {
+window.addEventListener('load', () => {
   const resizedImg = resizeImageToFitPuzzleArea(img);
   const pieces = createShuffledPieces();
   drawPieces(pieces, resizedImg);
@@ -33,7 +30,7 @@ img.onload = function () {
       }
     }
   });
-};
+});
 
 function startTimer() {
   startTime = new Date();
