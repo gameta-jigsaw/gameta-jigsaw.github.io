@@ -23,10 +23,24 @@ function loadImage(src) {
 }
 
 (async () => {
-  const resizedImg = await loadImage(`./${window.imgName}.jpg`);
+  const response = await fetch("./Jigsaw/");
+  const text = await response.text();
+  const parser = new DOMParser();
+  const doc = parser.parseFromString(text, "text/html");
+  const links = Array.from(doc.querySelectorAll("a[href]"));
+
+  const imageLinks = links
+    .map((link) => link.getAttribute("href"))
+    .filter((href) => href.match(/\.(jpg|jpeg|png|gif)$/i));
+
+  const randomImage = imageLinks[Math.floor(Math.random() * imageLinks.length)];
+  const imgName = randomImage.slice(0, -4); // Remove the file extension
+
+  const resizedImg = await loadImage(`./Jigsaw/${imgName}.jpg`);
   initPuzzle(resizedImg);
   drawReferencePuzzle(resizedImg);
 })();
+
 
 function drawPieces(pieces, resizedImg) {
   drawPiecesOnCanvas(ctx, pieces, resizedImg, pieceSize);
