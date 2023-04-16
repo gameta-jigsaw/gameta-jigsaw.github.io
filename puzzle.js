@@ -127,7 +127,7 @@ function isSolvable(pieces, gridSize) {
 function resizeImageToFitPuzzleArea(image) {
   const canvas = document.createElement('canvas');
   const ctx = canvas.getContext('2d');
-  canvas.width = canvas.height = pieceSize * gridSize;
+  canvas.width = canvas.height = 400; // Puzzle area size
 
   const scaleFactor = Math.min(canvas.width / image.width, canvas.height / image.height);
   const width = image.width * scaleFactor;
