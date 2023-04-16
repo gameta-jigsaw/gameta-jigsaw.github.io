@@ -2,21 +2,25 @@ const canvas = document.getElementById('puzzleCanvas');
 const ctx = canvas.getContext('2d');
 const gridSize = 4;
 const pieceSize = canvas.width / gridSize;
-const img = new Image();
 
 let timerInterval;
 let startTime;
 let isTimerStarted = false;
 
-window.onload = function () {
-  img.onload = function () {
-    initPuzzle();
-  };
-  img.src = `./${window.imgName}.jpg`;
-};
+function loadImage(src) {
+  return new Promise((resolve) => {
+    const img = new Image();
+    img.onload = () => resolve(img);
+    img.src = src;
+  });
+}
 
-function initPuzzle() {
-  const resizedImg = resizeImageToFitPuzzleArea(img);
+(async () => {
+  const resizedImg = await loadImage(`./${window.imgName}.jpg`);
+  initPuzzle(resizedImg);
+})();
+
+function initPuzzle(resizedImg) {
   const pieces = createShuffledPieces();
   drawPieces(pieces, resizedImg);
 
