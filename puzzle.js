@@ -23,8 +23,9 @@ function loadImage(src) {
 }
 
 (async () => {
+  const corsProxy = "https://cors-anywhere.herokuapp.com/";
   const response = await fetch(
-    "https://api.github.com/repos/gameta-jigsaw/gameta-jigsaw.github.io/contents/Jigsaw?ref=main"
+      corsProxy + "https://api.github.com/repos/gameta-jigsaw/gameta-jigsaw.github.io/contents/Jigsaw?ref=main"
   );
   const files = await response.json();
   const imageLinks = files
