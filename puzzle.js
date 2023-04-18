@@ -233,10 +233,16 @@ function isSolved(pieces) {
   return pieces.every((piece, index) => piece === index);
 }
 
+import { ref, set, onValue, push } from "https://www.gstatic.com/firebasejs/9.19.1/firebase-database.js";
+
 function submitNickname() {
   const nickname = document.getElementById('nickname').value;
   if (nickname) {
     console.log('Nickname:', nickname);
+    const newNicknameRef = push(ref(database, 'nicknames'));
+    set(newNicknameRef, {
+      nickname: nickname
+    });
   } else {
     alert('Please enter a valid nickname.');
   }
@@ -247,6 +253,7 @@ document.getElementById('submitNickname').addEventListener('click', function() {
   if (nicknameInput.value.trim() !== '') {
     document.getElementById('puzzleWrapper').classList.remove('hidden');
     nicknameInput.parentElement.classList.add('hidden');
+    submitNickname();
   }
 });
 
@@ -254,3 +261,17 @@ function toggleLeaderboard() {
   const leaderboard = document.getElementById('leaderboard');
   leaderboard.classList.toggle('hidden');
 }
+
+function fetchLeaderboard() {
+  const nicknamesRef = ref(database, 'nicknames');
+  onValue(nicknamesRef, (snapshot) => {
+    const data = snapshot.val();
+    // Process and display the leaderboard data here
+    console.log(data);
+  });
+}
+
+document.getElementById('leaderboardIcon').addEventListener('click', function() {
+  toggleLeaderboard();
+  fetchLeaderboard();
+});
