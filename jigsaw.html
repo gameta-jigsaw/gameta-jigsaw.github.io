@@ -36,5 +36,28 @@
         window.imgName = new URLSearchParams(window.location.search).get('img');
     </script>
     <script src="./puzzle.js"></script>
+    <script type="module">
+        // Import the functions you need from the SDKs you need
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.19.1/firebase-app.js";
+        import { getAnalytics } from "https://www.gstatic.com/firebasejs/9.19.1/firebase-analytics.js";
+        import { getDatabase } from "https://www.gstatic.com/firebasejs/9.19.1/firebase-database.js";
+
+        // Your web app's Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyA2IqpBUPdNrz05QOWrOQ_6iHTIijGZSu0",
+            authDomain: "gameta-fun.firebaseapp.com",
+            databaseURL: "https://gameta-fun-default-rtdb.asia-southeast1.firebasedatabase.app",
+            projectId: "gameta-fun",
+            storageBucket: "gameta-fun.appspot.com",
+            messagingSenderId: "539136049383",
+            appId: "1:539136049383:web:bf1cf9b023f48e3655e242",
+            measurementId: "G-T8ENH6W0R6"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const analytics = getAnalytics(app);
+        const database = getDatabase(app);
+    </script>
 </body>
 </html>
