@@ -121,7 +121,7 @@ function createShuffledPieces() {
   const pieceCount = gridSize * gridSize;
   const pieces = Array.from({ length: pieceCount }, (_, i) => i);
 
-  const numberOfMoves = 100; // Adjust this value to change the difficulty level
+  const numberOfMoves = 200; // Adjust this value to change the difficulty level
 
   let emptyPieceIndex = pieceCount - 1;
 
