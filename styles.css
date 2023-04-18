@@ -216,3 +216,8 @@ canvas {
 .hidden {
   display: none;
 }
+
+#puzzleWrapper {
+  opacity: 0;
+  transition: opacity 0.3s ease-in;
+}
