@@ -242,6 +242,14 @@ function submitNickname() {
   }
 }
 
+document.getElementById('submitNickname').addEventListener('click', function() {
+  const nicknameInput = document.getElementById('nickname');
+  if (nicknameInput.value.trim() !== '') {
+    document.getElementById('puzzleWrapper').classList.remove('hidden');
+    nicknameInput.parentElement.classList.add('hidden');
+  }
+});
+
 function toggleLeaderboard() {
   const leaderboard = document.getElementById('leaderboard');
   leaderboard.classList.toggle('hidden');
