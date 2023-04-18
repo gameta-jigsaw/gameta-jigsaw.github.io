@@ -232,3 +232,17 @@ function resizeImageToFitPuzzleArea(image) {
 function isSolved(pieces) {
   return pieces.every((piece, index) => piece === index);
 }
+
+function submitNickname() {
+  const nickname = document.getElementById('nickname').value;
+  if (nickname) {
+    console.log('Nickname:', nickname);
+  } else {
+    alert('Please enter a valid nickname.');
+  }
+}
+
+function toggleLeaderboard() {
+  const leaderboard = document.getElementById('leaderboard');
+  leaderboard.classList.toggle('hidden');
+}
