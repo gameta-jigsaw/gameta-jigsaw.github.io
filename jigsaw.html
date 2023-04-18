@@ -1,30 +1,43 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hippo Jigsaw</title>
-    <link rel="stylesheet" href="./styles.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hippo Jigsaw</title>
+  <link rel="stylesheet" href="./styles.css">
 </head>
 <body>
-    <header>
-        <img src="./logo.png" alt="Your Logo" id="logo">
-    </header>
-    <div class="main">
-        <div class="timer-wrapper">
-            Time Elapsed: <span id="timer">00:00</span>
-        </div>
-        <div class="container">
-            <canvas id="puzzleCanvas" width="400" height="400"></canvas>
-            <div class="reference-container">
-                <h3>Reference Puzzle</h3>
-                <canvas id="referenceCanvas" width="200" height="200"></canvas>
-            </div>
-        </div>
+  <header>
+    <img src="./logo.png" alt="Your Logo" id="logo">
+    <div class="leaderboard-icon" onclick="toggleLeaderboard()">
+      <!-- Add your leaderboard icon here -->
+      <img src="leaderboard-icon.svg" alt="Leaderboard" />
     </div>
-    <script>
-        window.imgName = new URLSearchParams(window.location.search).get('img');
-    </script>
-    <script src="./puzzle.js"></script>
+  </header>
+  <div class="main">
+    <div class="nickname-input">
+      <label for="nickname">Enter your Discord username:</label>
+      <input type="text" id="nickname" placeholder="Nickname">
+      <button onclick="submitNickname()">Enter</button>
+    </div>
+    <div class="timer-wrapper">
+      Time Elapsed: <span id="timer">00:00</span>
+    </div>
+    <div class="container">
+      <canvas id="puzzleCanvas" width="400" height="400"></canvas>
+      <div class="reference-container">
+        <h3>Reference Puzzle</h3>
+        <canvas id="referenceCanvas" width="200" height="200"></canvas>
+      </div>
+    </div>
+    <div id="leaderboard" class="hidden">
+      <!-- Add leaderboard content here -->
+      <h2>Leaderboard</h2>
+    </div>
+  </div>
+  <script>
+    window.imgName = new URLSearchParams(window.location.search).get('img');
+  </script>
+  <script src="./puzzle.js"></script>
 </body>
 </html>
