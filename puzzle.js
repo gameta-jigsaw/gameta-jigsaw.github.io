@@ -235,7 +235,7 @@ function isSolved(pieces) {
 
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.19.1/firebase-app.js";
 import { getAnalytics } from "https://www.gstatic.com/firebasejs/9.19.1/firebase-analytics.js";
-import { getDatabase, ref, set, onValue, push } from "https://www.gstatic.com/firebasejs/9.19.1/firebase-database.js";
+import { getDatabase, ref, set, onValue, push, get, update } from "https://www.gstatic.com/firebasejs/9.19.1/firebase-database.js";
 
 const firebaseConfig = {
     apiKey: "AIzaSyA2IqpBUPdNrz05QOWrOQ_6iHTIijGZSu0",
@@ -252,17 +252,24 @@ const app = initializeApp(firebaseConfig);
 const analytics = getAnalytics(app);
 const database = getDatabase(app);
 
-function submitNickname() {
-    const nickname = document.getElementById('nickname').value;
-    if (nickname) {
-        console.log('Nickname:', nickname);
-        const newNicknameRef = push(ref(database, 'nicknames'));
-        set(newNicknameRef, {
-            nickname: nickname
-        });
+async function submitNickname() {
+  const nickname = document.getElementById('nickname').value;
+  if (nickname) {
+    console.log('Nickname:', nickname);
+    const nicknamesRef = ref(database, 'nicknames');
+    const nicknameRef = ref(nicknamesRef, nickname);
+    const snapshot = await get(nicknameRef);
+    
+    if (snapshot.exists()) {
+      const data = snapshot.val();
+      const updatedCompletionCount = data.completionCount + 1;
+      update(nicknameRef, { completionCount: updatedCompletionCount });
     } else {
-        alert('Please enter a valid nickname.');
+      set(nicknameRef, { completionCount: 1 });
     }
+  } else {
+    alert('Please enter a valid nickname.');
+  }
 }
 
 document.getElementById('submitNickname').addEventListener('click', function() {
