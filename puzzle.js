@@ -10,6 +10,7 @@ const referencePieceSize = referenceCanvas.width / gridSize;
 let timerInterval;
 let startTime;
 let isTimerStarted = false;
+let imageSrc = '';
 
 function loadImage(src) {
   return new Promise((resolve) => {
@@ -31,6 +32,8 @@ function loadImage(src) {
   const imageLinks = data.images.map(filename => `/Jigsaw/${filename}`);
   const randomImage = imageLinks[Math.floor(Math.random() * imageLinks.length)];
 
+  imageSrc = randomImage;
+  
   const resizedImg = await loadImage(randomImage);
   initPuzzle(resizedImg);
   drawReferencePuzzle(resizedImg);
