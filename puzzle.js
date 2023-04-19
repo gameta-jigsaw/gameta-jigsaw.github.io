@@ -257,23 +257,20 @@ async function submitNickname() {
   if (nickname) {
     console.log('Nickname:', nickname);
     const nicknamesRef = ref(database, 'nicknames');
-    const nicknameRef = ref(nicknamesRef, nickname);
+    const nicknameRef = child(nicknamesRef, nickname);
     const snapshot = await get(nicknameRef);
     
     if (snapshot.exists()) {
       const data = snapshot.val();
       const updatedCompletionCount = data.completionCount + 1;
-      console.log('Updating completion count');
-      update(nicknameRef, { completionCount: updatedCompletionCount });
+      set(nicknameRef, { completionCount: updatedCompletionCount });
     } else {
-      console.log('Setting completion count');
       set(nicknameRef, { completionCount: 1 });
     }
   } else {
     alert('Please enter a valid nickname.');
   }
 }
-
 
 document.getElementById('submitNickname').addEventListener('click', function() {
     const nicknameInput = document.getElementById('nickname');
