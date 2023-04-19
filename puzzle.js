@@ -262,7 +262,6 @@ const database = getDatabase(app);
 async function submitNickname() {
   const nickname = document.getElementById('nickname').value;
   if (nickname) {
-    console.log('Nickname:', nickname);
     const nicknamesRef = ref(database, 'nicknames');
     const nicknameRef = child(nicknamesRef, nickname);
     const snapshot = await get(nicknameRef);
@@ -273,12 +272,9 @@ async function submitNickname() {
 
     // Call initPuzzle() after submitting the nickname
     if (window.imageSrc) {
-      //console.log('Submitting nickname: imageSrc is available');
       const resizedImg = await loadImage(window.imageSrc);
-      //console.log('Submitting nickname: resizedImg', resizedImg);
       initPuzzle(resizedImg);
     } else {
-      //console.log('Submitting nickname: imageSrc is not available');
       alert('Image source is not available.');
     }
 
@@ -328,7 +324,5 @@ async function updateCompletionCount(nickname) {
 }
 
 document.getElementById('submitNickname').addEventListener('click', function() {
-  console.log('Submit button clicked'); // Add this line for debugging
   submitNickname();
 });
-
