@@ -304,11 +304,6 @@ function fetchLeaderboard() {
     });
 }
 
-document.getElementById('leaderboardIcon').addEventListener('click', function() {
-    toggleLeaderboard();
-    fetchLeaderboard();
-});
-
 async function updateCompletionCount(nickname) {
   const nicknamesRef = ref(database, 'nicknames');
   const nicknameRef = child(nicknamesRef, nickname);
