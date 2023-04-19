@@ -270,15 +270,13 @@ async function submitNickname() {
     }
 
     // Call initPuzzle() after submitting the nickname
-    const resizedImg = await resizeImage(imageSrc, gridSize);
+    const resizedImg = await loadImage(imageSrc); // Update this line
     initPuzzle(resizedImg);
 
   } else {
     alert('Please enter a valid nickname.');
   }
 }
-
-
 
 function toggleLeaderboard() {
     const leaderboard = document.getElementById('leaderboard');
