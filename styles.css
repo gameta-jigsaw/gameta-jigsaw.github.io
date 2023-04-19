@@ -144,4 +144,5 @@ canvas {
 .leaderboard-button img {
   height: 40px;
   width: auto;
+  padding-left: 10px;
 }
