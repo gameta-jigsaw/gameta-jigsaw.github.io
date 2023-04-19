@@ -265,10 +265,16 @@ async function submitNickname() {
     if (!snapshot.exists()) {
       set(nicknameRef, { completionCount: 0 });
     }
+
+    // Call initPuzzle() after submitting the nickname
+    const resizedImg = await resizeImage(imageSrc, gridSize);
+    initPuzzle(resizedImg);
+
   } else {
     alert('Please enter a valid nickname.');
   }
 }
+
 
 
 function toggleLeaderboard() {
