@@ -324,7 +324,7 @@ async function updateCompletionCount(nickname) {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-  document.getElementById('leaderboardIcon').addEventListener('click', function() {
+  document.getElementById('leaderboardButton').addEventListener('click', function() {
     toggleLeaderboard();
     fetchLeaderboard();
   });
@@ -333,3 +333,4 @@ document.addEventListener('DOMContentLoaded', () => {
     submitNickname();
   });
 });
+
