@@ -221,3 +221,17 @@ canvas {
   transition: opacity 0.3s ease-in;
 }
 
+.leaderboard-button {
+  background-image: url('./leaderboard.svg');
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  border: none;
+  width: 40px; /* Adjust the width and height according to your desired size */
+  height: 40px;
+  cursor: pointer;
+}
+
+.leaderboard-button:focus {
+  outline: none;
+}
