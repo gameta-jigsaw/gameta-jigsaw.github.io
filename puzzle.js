@@ -274,6 +274,7 @@ async function submitNickname() {
     // Call initPuzzle() after submitting the nickname
     if (window.imageSrc) {
       const resizedImg = await loadImage(window.imageSrc);
+      alert('Puzzle re-initialized with the same image.');
       initPuzzle(resizedImg);
     } else {
       alert('Image source is not available.');
@@ -283,7 +284,6 @@ async function submitNickname() {
     alert('Please enter a valid nickname.');
   }
 }
-
 
 function toggleLeaderboard() {
     const leaderboard = document.getElementById('leaderboard');
