@@ -323,6 +323,13 @@ async function updateCompletionCount(nickname) {
   }
 }
 
-document.getElementById('submitNickname').addEventListener('click', function() {
-  submitNickname();
+document.addEventListener('DOMContentLoaded', () => {
+  document.getElementById('leaderboardIcon').addEventListener('click', function() {
+    toggleLeaderboard();
+    fetchLeaderboard();
+  });
+
+  document.getElementById('submitNickname').addEventListener('click', function() {
+    submitNickname();
+  });
 });
