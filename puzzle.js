@@ -253,22 +253,20 @@ const analytics = getAnalytics(app);
 const database = getDatabase(app);
 
 async function submitNickname() {
-  const nickname = document.getElementById('nickname').value;
+  const nickname = document.getElementById("nickname").value;
   if (nickname) {
-    console.log('Nickname:', nickname);
-    const nicknamesRef = ref(database, 'nicknames');
+    console.log("Nickname:", nickname);
+    const nicknamesRef = ref(database, "nicknames");
     const nicknameRef = ref(nicknamesRef, nickname);
     const snapshot = await get(nicknameRef);
-    
-    if (snapshot.exists()) {
-      const data = snapshot.val();
-      const updatedCompletionCount = data.completionCount + 1;
-      update(nicknameRef, { completionCount: updatedCompletionCount });
-    } else {
-      set(nicknameRef, { completionCount: 1 });
+
+    if (!snapshot.exists()) {
+      set(nicknameRef, { completionCount: 0 }).catch((error) => {
+        console.error("Error writing to database:", error);
+      });
     }
   } else {
-    alert('Please enter a valid nickname.');
+    alert("Please enter a valid nickname.");
   }
 }
 
