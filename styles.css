@@ -140,3 +140,8 @@ canvas {
 .leaderboard-button:focus {
   outline: none;
 }
+
+.leaderboard-button img {
+  height: 40px;
+  width: auto;
+}
