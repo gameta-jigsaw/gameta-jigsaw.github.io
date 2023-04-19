@@ -233,47 +233,64 @@ function isSolved(pieces) {
   return pieces.every((piece, index) => piece === index);
 }
 
-import { ref, set, onValue, push } from "https://www.gstatic.com/firebasejs/9.19.1/firebase-database.js";
+import { initializeApp } from "https://www.gstatic.com/firebasejs/9.19.1/firebase-app.js";
+import { getAnalytics } from "https://www.gstatic.com/firebasejs/9.19.1/firebase-analytics.js";
+import { getDatabase, ref, set, onValue, push } from "https://www.gstatic.com/firebasejs/9.19.1/firebase-database.js";
 
-const database = getDatabase();
+// Your web app's Firebase configuration
+const firebaseConfig = {
+    apiKey: "AIzaSyA2IqpBUPdNrz05QOWrOQ_6iHTIijGZSu0",
+    authDomain: "gameta-fun.firebaseapp.com",
+    databaseURL: "https://gameta-fun-default-rtdb.asia-southeast1.firebasedatabase.app",
+    projectId: "gameta-fun",
+    storageBucket: "gameta-fun.appspot.com",
+    messagingSenderId: "539136049383",
+    appId: "1:539136049383:web:bf1cf9b023f48e3655e242",
+    measurementId: "G-T8ENH6W0R6"
+};
+
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+const analytics = getAnalytics(app);
+const database = getDatabase(app);
 
 function submitNickname() {
-  const nickname = document.getElementById('nickname').value;
-  if (nickname) {
-    console.log('Nickname:', nickname);
-    const newNicknameRef = push(ref(database, 'nicknames'));
-    set(newNicknameRef, {
-      nickname: nickname
-    });
-  } else {
-    alert('Please enter a valid nickname.');
-  }
+    const nickname = document.getElementById('nickname').value;
+    if (nickname) {
+        console.log('Nickname:', nickname);
+        const newNicknameRef = push(ref(database, 'nicknames'));
+        set(newNicknameRef, {
+            nickname: nickname
+        });
+    } else {
+        alert('Please enter a valid nickname.');
+    }
 }
 
 document.getElementById('submitNickname').addEventListener('click', function() {
-  const nicknameInput = document.getElementById('nickname');
-  if (nicknameInput.value.trim() !== '') {
-    document.getElementById('puzzleWrapper').classList.remove('hidden');
-    nicknameInput.parentElement.classList.add('hidden');
-    submitNickname();
-  }
+    const nicknameInput = document.getElementById('nickname');
+    if (nicknameInput.value.trim() !== '') {
+        document.getElementById('puzzleWrapper').classList.remove('hidden');
+        nicknameInput.parentElement.classList.add('hidden');
+        submitNickname();
+    }
 });
 
 function toggleLeaderboard() {
-  const leaderboard = document.getElementById('leaderboard');
-  leaderboard.classList.toggle('hidden');
+    const leaderboard = document.getElementById('leaderboard');
+    leaderboard.classList.toggle('hidden');
 }
 
 function fetchLeaderboard() {
-  const nicknamesRef = ref(database, 'nicknames');
-  onValue(nicknamesRef, (snapshot) => {
-    const data = snapshot.val();
-    // Process and display the leaderboard data here
-    console.log(data);
-  });
+    const nicknamesRef = ref(database, 'nicknames');
+    onValue(nicknamesRef, (snapshot) => {
+        const data = snapshot.val();
+        // Process and display the leaderboard data here
+        console.log(data);
+    });
 }
 
 document.getElementById('leaderboardIcon').addEventListener('click', function() {
-  toggleLeaderboard();
-  fetchLeaderboard();
+    toggleLeaderboard();
+    fetchLeaderboard();
 });
