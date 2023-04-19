@@ -304,8 +304,8 @@ async function updateCompletionCount(nickname) {
   }
 }
 
-document.addEventListener('DOMContentLoaded', function () {
-  document.getElementById('submitNickname').addEventListener('click', function() {
-    submitNickname();
-  });
+document.getElementById('submitNickname').addEventListener('click', function() {
+  console.log('Submit button clicked'); // Add this line for debugging
+  submitNickname();
 });
+
