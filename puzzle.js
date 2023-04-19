@@ -282,10 +282,17 @@ async function submitNickname() {
       alert('Image source is not available.');
     }
 
+    const nicknameInput = document.querySelector('.nickname-input');
+    const puzzleWrapper = document.getElementById('puzzleWrapper');
+
+    nicknameInput.classList.add('hidden');
+    puzzleWrapper.classList.remove('hidden');
+
   } else {
     alert('Please enter a valid nickname.');
   }
 }
+
 
 function toggleLeaderboard() {
     const leaderboard = document.getElementById('leaderboard');
