@@ -318,7 +318,7 @@ async function updateCompletionCount(nickname) {
   }
 }
 
-document.addEventListener('DOMContentLoaded', () => {
+function initEventListeners() {
   document.getElementById('leaderboardButton').addEventListener('click', function(event) {
     event.preventDefault();
     toggleLeaderboard();
@@ -328,7 +328,10 @@ document.addEventListener('DOMContentLoaded', () => {
   document.getElementById('submitNickname').addEventListener('click', function() {
     submitNickname();
   });
-});
+}
+
+document.addEventListener('DOMContentLoaded', initEventListeners);
+
 
 
 
