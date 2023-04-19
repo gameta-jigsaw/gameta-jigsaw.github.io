@@ -270,14 +270,22 @@ async function submitNickname() {
   }
 }
 
-document.getElementById('submitNickname').addEventListener('click', function() {
-    const nicknameInput = document.getElementById('nickname');
-    if (nicknameInput.value.trim() !== '') {
-        document.getElementById('puzzleWrapper').classList.remove('hidden');
-        nicknameInput.parentElement.classList.add('hidden');
-        submitNickname();
+async function submitNickname() {
+  const nickname = document.getElementById('nickname').value;
+  if (nickname) {
+    console.log('Nickname:', nickname);
+    const nicknamesRef = ref(database, 'nicknames');
+    const nicknameRef = child(nicknamesRef, nickname);
+    const snapshot = await get(nicknameRef);
+
+    if (!snapshot.exists()) {
+      set(nicknameRef, { completionCount: 0 });
     }
-});
+  } else {
+    alert('Please enter a valid nickname.');
+  }
+}
+
 
 function toggleLeaderboard() {
     const leaderboard = document.getElementById('leaderboard');
