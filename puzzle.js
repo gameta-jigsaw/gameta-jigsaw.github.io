@@ -291,8 +291,8 @@ async function submitNickname() {
 
 
 function toggleLeaderboard() {
-    const leaderboard = document.getElementById('leaderboard');
-    leaderboard.classList.toggle('hidden');
+  const leaderboard = document.getElementById('leaderboard');
+  leaderboard.classList.toggle('hidden');
 }
 
 function fetchLeaderboard() {
