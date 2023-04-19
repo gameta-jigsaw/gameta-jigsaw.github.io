@@ -237,7 +237,6 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/9.19.1/firebas
 import { getAnalytics } from "https://www.gstatic.com/firebasejs/9.19.1/firebase-analytics.js";
 import { getDatabase, ref, set, onValue, push } from "https://www.gstatic.com/firebasejs/9.19.1/firebase-database.js";
 
-// Your web app's Firebase configuration
 const firebaseConfig = {
     apiKey: "AIzaSyA2IqpBUPdNrz05QOWrOQ_6iHTIijGZSu0",
     authDomain: "gameta-fun.firebaseapp.com",
@@ -249,7 +248,6 @@ const firebaseConfig = {
     measurementId: "G-T8ENH6W0R6"
 };
 
-// Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const analytics = getAnalytics(app);
 const database = getDatabase(app);
