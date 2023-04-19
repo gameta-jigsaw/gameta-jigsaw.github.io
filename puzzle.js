@@ -44,7 +44,7 @@ function initPuzzle(resizedImg) {
   const pieces = createShuffledPieces();
   drawPieces(pieces, resizedImg);
 
-    canvas.addEventListener('click', (event) => {
+  canvas.addEventListener('click', (event) => {
     if (!isTimerStarted) {
       startTimer();
       isTimerStarted = true;
@@ -62,6 +62,8 @@ function initPuzzle(resizedImg) {
           stopTimer();
           const elapsedTime = document.getElementById('timer').textContent;
           alert(`Congratulations! You solved the puzzle in ${elapsedTime}!`);
+          const nickname = document.getElementById('nickname').value;
+          updateCompletionCount(nickname);
         }
       }
     }
@@ -259,13 +261,9 @@ async function submitNickname() {
     const nicknamesRef = ref(database, 'nicknames');
     const nicknameRef = child(nicknamesRef, nickname);
     const snapshot = await get(nicknameRef);
-    
-    if (snapshot.exists()) {
-      const data = snapshot.val();
-      const updatedCompletionCount = data.completionCount + 1;
-      set(nicknameRef, { completionCount: updatedCompletionCount });
-    } else {
-      set(nicknameRef, { completionCount: 1 });
+
+    if (!snapshot.exists()) {
+      set(nicknameRef, { completionCount: 0 });
     }
   } else {
     alert('Please enter a valid nickname.');
@@ -299,3 +297,17 @@ document.getElementById('leaderboardIcon').addEventListener('click', function() 
     toggleLeaderboard();
     fetchLeaderboard();
 });
+
+async function updateCompletionCount(nickname) {
+  const nicknamesRef = ref(database, 'nicknames');
+  const nicknameRef = child(nicknamesRef, nickname);
+  const snapshot = await get(nicknameRef);
+    
+  if (snapshot.exists()) {
+    const data = snapshot.val();
+    const updatedCompletionCount = data.completionCount + 1;
+    set(nicknameRef, { completionCount: updatedCompletionCount });
+  } else {
+    set(nicknameRef, { completionCount: 1 });
+  }
+}
