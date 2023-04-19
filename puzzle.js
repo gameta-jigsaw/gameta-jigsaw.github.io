@@ -273,10 +273,12 @@ async function submitNickname() {
 
     // Call initPuzzle() after submitting the nickname
     if (window.imageSrc) {
+      console.log('Submitting nickname: imageSrc is available');
       const resizedImg = await loadImage(window.imageSrc);
-      alert('Puzzle re-initialized with the same image.');
+      console.log('Submitting nickname: resizedImg', resizedImg);
       initPuzzle(resizedImg);
     } else {
+      console.log('Submitting nickname: imageSrc is not available');
       alert('Image source is not available.');
     }
 
