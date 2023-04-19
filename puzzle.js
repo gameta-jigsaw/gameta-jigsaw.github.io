@@ -235,6 +235,8 @@ function isSolved(pieces) {
 
 import { ref, set, onValue, push } from "https://www.gstatic.com/firebasejs/9.19.1/firebase-database.js";
 
+const database = getDatabase();
+
 function submitNickname() {
   const nickname = document.getElementById('nickname').value;
   if (nickname) {
