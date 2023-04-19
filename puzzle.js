@@ -323,7 +323,7 @@ async function updateCompletionCount(nickname) {
   }
 }
 
-document.getElementById('leaderboardIcon').addEventListener('click', function() {
+document.getElementById('leaderboardButton').addEventListener('click', function() {
   toggleLeaderboard();
   fetchLeaderboard();
 });
