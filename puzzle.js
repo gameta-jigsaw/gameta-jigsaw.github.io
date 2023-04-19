@@ -235,7 +235,7 @@ function isSolved(pieces) {
 
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.10.0/firebase-app.js";
 import { getAnalytics } from "https://www.gstatic.com/firebasejs/9.10.0/firebase-analytics.js";
-import { getDatabase, ref, set, onValue, push, get, update } from "https://www.gstatic.com/firebasejs/9.10.0/firebase-database.js";
+import { getDatabase, ref, set, onValue, push, get, update, child } from "https://www.gstatic.com/firebasejs/9.10.0/firebase-database.js";
 
 const firebaseConfig = {
     apiKey: "AIzaSyA2IqpBUPdNrz05QOWrOQ_6iHTIijGZSu0",
