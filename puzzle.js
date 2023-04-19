@@ -37,6 +37,8 @@ function loadImage(src) {
   const resizedImg = await loadImage(randomImage);
   initPuzzle(resizedImg);
   drawReferencePuzzle(resizedImg);
+  
+  window.imageSrc = randomImage;
 })();
 
 function drawPieces(pieces, resizedImg) {
