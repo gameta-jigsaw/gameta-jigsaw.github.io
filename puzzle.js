@@ -319,16 +319,15 @@ async function updateCompletionCount(nickname) {
 }
 
 function initEventListeners() {
-  document.getElementById('leaderboardButton').addEventListener('click', function(event) {
+  document.getElementById('leaderboardButton').addEventListener('click', function (event) {
     event.preventDefault();
     toggleLeaderboard();
     fetchLeaderboard();
   });
 
-  document.getElementById('submitNickname').addEventListener('click', function() {
+  document.getElementById('submitNickname').addEventListener('click', function () {
     submitNickname();
   });
 }
 
 document.addEventListener('DOMContentLoaded', initEventListeners);
-
