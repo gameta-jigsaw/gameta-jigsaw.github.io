@@ -319,7 +319,7 @@ async function updateCompletionCount(nickname) {
 }
 
 function initEventListeners() {
-  document.getElementById('leaderboardButton').addEventListener('click', function(event) {
+  document.querySelector('.leaderboard-button').addEventListener('click', function(event) {
     event.preventDefault();
     toggleLeaderboard();
     fetchLeaderboard();
