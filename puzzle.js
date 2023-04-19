@@ -272,7 +272,7 @@ async function submitNickname() {
     }
 
     // Call initPuzzle() after submitting the nickname
-    const resizedImg = await loadImage(imageSrc); // Update this line
+    const resizedImg = await loadImage(window.imageSrc);
     initPuzzle(resizedImg);
 
   } else {
