@@ -319,7 +319,7 @@ async function updateCompletionCount(nickname) {
 }
 
 function initEventListeners() {
-  document.querySelector('.leaderboard-button').addEventListener('click', function(event) {
+  document.getElementById('leaderboardButton').addEventListener('click', function(event) {
     event.preventDefault();
     toggleLeaderboard();
     fetchLeaderboard();
@@ -331,8 +331,4 @@ function initEventListeners() {
 }
 
 document.addEventListener('DOMContentLoaded', initEventListeners);
-
-
-
-
 
