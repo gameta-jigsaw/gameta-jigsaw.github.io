@@ -328,17 +328,14 @@ function initPuzzle(resizedImg) {
 }
 
 function initEventListeners() {
-  document.getElementById('submitNickname').addEventListener('click', function (event) {
+  const submitButton = document.getElementById('submitNickname');
+  submitButton.addEventListener('click', function (event) {
+    event.preventDefault();
+    submitNickname();
+  });
+  submitButton.addEventListener('touchend', function (event) {
     event.preventDefault();
     submitNickname();
   });
 }
-
-document.addEventListener('DOMContentLoaded', async () => {
-  initEventListeners();
-  if (window.imageSrc) {
-    const resizedImg = await loadImage(window.imageSrc);
-    initPuzzle(resizedImg);
-  }
-});
 
