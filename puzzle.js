@@ -309,45 +309,47 @@ function initializeTimer() {
 }
 
 
-
-function initClickEventListener(shuffledPieces, resizedImg) {
-  canvas.addEventListener('click', async (event) => {
-    if (puzzleSolved) {
-      return; // Do not allow clicking on the puzzle if it's already solved
-    }
-      
-    if (!isTimerStarted) {
-      startTimer();
-      isTimerStarted = true;
-    }
-
-    const [x, y] = getClickedPosition(event);
-    const clickedPieceIndex = findPieceAtPosition(shuffledPieces, x, y);
-    const emptyPieceIndex = findEmptyPiece(shuffledPieces);
-
-    if (clickedPieceIndex !== -1 && areNeighbors(clickedPieceIndex, emptyPieceIndex, gridSize)) {
-      swapPieces(shuffledPieces, clickedPieceIndex, emptyPieceIndex);
-      drawPiecesOnCanvas(ctx, shuffledPieces, resizedImg, pieceSize);
-      if (isSolved(shuffledPieces)) {
-        puzzleSolved = true; // Set the puzzleSolved variable to true when the puzzle is solved
-        const completionTime = getFormattedTime();
-        const nickname = document.getElementById('nickname').value;
-        await updateCompletionCount(nickname);
-        alert(`Congratulations! You solved the puzzle in ${completionTime}!`);
-        stopTimer();
-        isTimerStarted = false;
-        replayButton.classList.remove('hidden'); // Show the replay button
-      }
-    }
-  });
-}
-
-function initPuzzle(resizedImg) {
-  puzzleSolved = false; 
+async function initPuzzle(resizedImg) {
+  puzzleSolved = false;
   const ctx = canvas.getContext('2d');
   const shuffledPieces = createShuffledPieces();
   drawPiecesOnCanvas(ctx, shuffledPieces, resizedImg, pieceSize);
-  initClickEventListener(shuffledPieces, resizedImg);
+  initClickEventListener(shuffledPieces, resizedImg, onCanvasClick);
+}
+
+function initClickEventListener(shuffledPieces, resizedImg, eventHandler) {
+  canvas.removeEventListener('click', eventHandler); // Remove the existing event listener
+  canvas.addEventListener('click', eventHandler); // Add the new event listener
+}
+
+async function onCanvasClick(event) {
+  if (puzzleSolved) {
+    return; // Do not allow clicking on the puzzle if it's already solved
+  }
+
+  if (!isTimerStarted) {
+    startTimer();
+    isTimerStarted = true;
+  }
+
+  const [x, y] = getClickedPosition(event);
+  const clickedPieceIndex = findPieceAtPosition(shuffledPieces, x, y);
+  const emptyPieceIndex = findEmptyPiece(shuffledPieces);
+
+  if (clickedPieceIndex !== -1 && areNeighbors(clickedPieceIndex, emptyPieceIndex, gridSize)) {
+    swapPieces(shuffledPieces, clickedPieceIndex, emptyPieceIndex);
+    drawPiecesOnCanvas(ctx, shuffledPieces, resizedImg, pieceSize);
+    if (isSolved(shuffledPieces)) {
+      puzzleSolved = true;
+      const completionTime = getFormattedTime();
+      const nickname = document.getElementById('nickname').value;
+      await updateCompletionCount(nickname);
+      alert(`Congratulations! You solved the puzzle in ${completionTime}!`);
+      stopTimer();
+      isTimerStarted = false;
+      replayButton.classList.remove('hidden');
+    }
+  }
 }
 
 document.getElementById('submitNickname').addEventListener('click', submitNickname);
@@ -358,4 +360,3 @@ replayButton.addEventListener('click', async () => {
   const resizedImg = await loadImage(window.imageSrc);
   initPuzzle(resizedImg);
 });
-
