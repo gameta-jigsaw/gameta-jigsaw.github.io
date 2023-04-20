@@ -36,6 +36,8 @@ let timerInterval;
 let startTime;
 let isTimerStarted = false;
 let imageSrc = '';
+let puzzleSolved = false;
+
 
 function loadImage(src) {
   return new Promise((resolve) => {
@@ -243,6 +245,7 @@ function resizeImageToFitPuzzleArea(image) {
 }
 
 function isSolved(pieces) {
+  puzzleSolved = true;
   return pieces.every((piece, index) => piece === index);
 }
 
@@ -308,6 +311,10 @@ function initializeTimer() {
 
 function initClickEventListener(shuffledPieces, resizedImg) {
   canvas.addEventListener('click', async (event) => {
+    if (puzzleSolved) {
+      return; // Do not allow clicking on the puzzle if it's already solved
+    }
+      
     if (!isTimerStarted) {
       startTimer();
       isTimerStarted = true;
