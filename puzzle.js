@@ -324,6 +324,5 @@ function initPuzzle(resizedImg) {
   }
 }
 
-initEventListeners();
-
+document.getElementById('submitNickname').addEventListener('click', submitNickname);
 
