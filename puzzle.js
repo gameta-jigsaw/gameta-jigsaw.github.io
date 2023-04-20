@@ -15,6 +15,13 @@ const firebaseConfig = {
     measurementId: "G-T8ENH6W0R6"
 };
 
+// Initialize Firebase App
+const app = initializeApp(firebaseConfig);
+const analytics = getAnalytics(app);
+
+// Initialize Realtime Database
+const database = getDatabase(app);
+
 const canvas = document.getElementById('puzzleCanvas');
 const ctx = canvas.getContext('2d');
 const gridSize = 4;
