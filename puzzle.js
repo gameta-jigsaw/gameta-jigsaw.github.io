@@ -297,6 +297,12 @@ function initPuzzle(resizedImg) {
   drawPiecesOnCanvas(ctx, shuffledPieces, resizedImg, pieceSize);
 
   canvas.addEventListener('click', async (event) => {
+    // Start the timer if it hasn't started yet
+    if (!isTimerStarted) {
+      startTimer();
+      isTimerStarted = true;
+    }
+
     const [x, y] = getClickedPosition(event);
     const clickedPieceIndex = findPieceAtPosition(shuffledPieces, x, y);
     const emptyPieceIndex = findEmptyPiece(shuffledPieces);
@@ -309,10 +315,13 @@ function initPuzzle(resizedImg) {
         await updateCompletionCount(nickname);
         alert('Congratulations! You solved the puzzle!');
         // Restart the puzzle after it is solved
+        stopTimer(); // Stop the current timer
+        isTimerStarted = false; // Reset the timer started flag
         initPuzzle(resizedImg);
       }
     }
   });
 }
+
 
 
