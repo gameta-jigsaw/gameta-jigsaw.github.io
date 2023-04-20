@@ -282,22 +282,17 @@ async function updateCompletionCount(nickname) {
   }
 }
 
-function initEventListeners() {
-  document.getElementById('submitNickname').addEventListener('click', function () {
-    submitNickname();
-  });
+function getFormattedTime() {
+  const currentTime = new Date();
+  const elapsedTime = Math.floor((currentTime - startTime) / 1000);
+  const minutes = Math.floor(elapsedTime / 60);
+  const seconds = elapsedTime % 60;
+  const centiseconds = Math.floor((currentTime - startTime) / 10) % 100;
+  return `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}.${centiseconds.toString().padStart(2, '0')}`;
 }
 
-document.addEventListener('DOMContentLoaded', initEventListeners);
-
-function initPuzzle(resizedImg) {
-  const ctx = canvas.getContext('2d');
-
-  const shuffledPieces = createShuffledPieces();
-  drawPiecesOnCanvas(ctx, shuffledPieces, resizedImg, pieceSize);
-
+function initClickEventListener(shuffledPieces, resizedImg) {
   canvas.addEventListener('click', async (event) => {
-    // Start the timer if it hasn't started yet
     if (!isTimerStarted) {
       startTimer();
       isTimerStarted = true;
@@ -313,15 +308,28 @@ function initPuzzle(resizedImg) {
       if (isSolved(shuffledPieces)) {
         const nickname = document.getElementById('nickname').value;
         await updateCompletionCount(nickname);
-        alert('Congratulations! You solved the puzzle!');
-        // Restart the puzzle after it is solved
-        stopTimer(); // Stop the current timer
-        isTimerStarted = false; // Reset the timer started flag
+        const completionTime = getFormattedTime();
+        alert(`Congratulations! You solved the puzzle in ${completionTime}!`);
+        stopTimer();
+        isTimerStarted = false;
         initPuzzle(resizedImg);
       }
     }
   });
 }
 
+function initPuzzle(resizedImg) {
+  const ctx = canvas.getContext('2d');
+  const shuffledPieces = createShuffledPieces();
+  drawPiecesOnCanvas(ctx, shuffledPieces, resizedImg, pieceSize);
+}
 
-
+document.addEventListener('DOMContentLoaded', async () => {
+  initEventListeners();
+  if (window.imageSrc) {
+    const resizedImg = await loadImage(window.imageSrc);
+    initPuzzle(resizedImg);
+    const shuffledPieces = createShuffledPieces();
+    initClickEventListener(shuffledPieces, resizedImg);
+  }
+});
