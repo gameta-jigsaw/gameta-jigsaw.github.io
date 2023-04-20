@@ -245,7 +245,6 @@ function resizeImageToFitPuzzleArea(image) {
 }
 
 function isSolved(pieces) {
-  puzzleSolved = true;
   return pieces.every((piece, index) => piece === index);
 }
 
@@ -328,6 +327,7 @@ function initClickEventListener(shuffledPieces, resizedImg) {
       swapPieces(shuffledPieces, clickedPieceIndex, emptyPieceIndex);
       drawPiecesOnCanvas(ctx, shuffledPieces, resizedImg, pieceSize);
       if (isSolved(shuffledPieces)) {
+        puzzleSolved = true; // Set the puzzleSolved variable to true when the puzzle is solved
         const completionTime = getFormattedTime();
         const nickname = document.getElementById('nickname').value;
         await updateCompletionCount(nickname);
