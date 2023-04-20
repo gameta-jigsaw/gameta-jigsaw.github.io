@@ -328,7 +328,8 @@ function initPuzzle(resizedImg) {
 }
 
 function initEventListeners() {
-  document.getElementById('submitNickname').addEventListener('click', function () {
+  document.getElementById('nicknameForm').addEventListener('submit', function (event) {
+    event.preventDefault();
     submitNickname();
   });
 }
