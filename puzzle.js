@@ -324,4 +324,6 @@ function initPuzzle(resizedImg) {
   }
 }
 
+initEventListeners();
+
 
