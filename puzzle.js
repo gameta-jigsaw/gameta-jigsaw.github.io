@@ -361,3 +361,32 @@ replayButton.addEventListener('click', async () => {
   const resizedImg = await loadImage(window.imageSrc);
   initPuzzle(resizedImg);
 });
+
+async function displayLeaderboard() {
+  const leaderboardContent = document.getElementById('leaderboardContent');
+  leaderboardContent.innerHTML = ''; // Clear the previous content
+
+  const snapshot = await get(ref(database, 'nicknames'));
+  const leaderboardData = snapshot.val();
+
+  // Sort leaderboard data by completion count
+  const sortedData = Object.entries(leaderboardData).sort((a, b) => b[1].completionCount - a[1].completionCount);
+
+  // Display leaderboard data
+  sortedData.forEach(([nickname, data]) => {
+    const entry = document.createElement('div');
+    entry.textContent = `${nickname}: ${data.completionCount}`;
+    leaderboardContent.appendChild(entry);
+  });
+}
+
+document.getElementById('leaderboardIcon').addEventListener('click', async () => {
+  const leaderboard = document.getElementById('leaderboard');
+  if (leaderboard.classList.contains('hidden')) {
+    leaderboard.classList.remove('hidden');
+    await displayLeaderboard(); // Fetch and display the leaderboard data
+  } else {
+    leaderboard.classList.add('hidden');
+  }
+});
+
