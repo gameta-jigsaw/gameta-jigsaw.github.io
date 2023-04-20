@@ -123,6 +123,13 @@ function stopTimer() {
   isTimerStarted = false;
 }
 
+function resetTimer() {
+  clearInterval(timerInterval);
+  startTime = new Date();
+  document.getElementById('timer').textContent = '00:00';
+}
+
+
 function createShuffledPieces() {
   const pieceCount = gridSize * gridSize;
   const pieces = Array.from({ length: pieceCount }, (_, i) => i);
@@ -335,6 +342,8 @@ document.getElementById('submitNickname').addEventListener('click', submitNickna
 
 replayButton.addEventListener('click', async () => {
   replayButton.classList.add('hidden');
+  resetTimer();
   const resizedImg = await loadImage(window.imageSrc);
   initPuzzle(resizedImg);
 });
+
