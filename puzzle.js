@@ -331,9 +331,11 @@ function initEventListeners() {
     event.preventDefault();
     submitNickname();
   });
+
   submitButton.addEventListener('touchend', function (event) {
     event.preventDefault();
     submitNickname();
   });
 }
+
 
