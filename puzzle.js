@@ -291,12 +291,16 @@ function getFormattedTime() {
   return `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}.${centiseconds.toString().padStart(2, '0')}`;
 }
 
+function initializeTimer() {
+  if (!isTimerStarted) {
+    startTimer();
+    isTimerStarted = true;
+  }
+}
+
 function initClickEventListener(shuffledPieces, resizedImg) {
   canvas.addEventListener('click', async (event) => {
-    if (!isTimerStarted) {
-      startTimer();
-      isTimerStarted = true;
-    }
+    initializeTimer();
 
     const [x, y] = getClickedPosition(event);
     const clickedPieceIndex = findPieceAtPosition(shuffledPieces, x, y);
@@ -316,18 +320,11 @@ function initClickEventListener(shuffledPieces, resizedImg) {
   });
 }
 
-
 function initPuzzle(resizedImg) {
   const ctx = canvas.getContext('2d');
   const shuffledPieces = createShuffledPieces();
   drawPiecesOnCanvas(ctx, shuffledPieces, resizedImg, pieceSize);
   initClickEventListener(shuffledPieces, resizedImg);
-
-  // Start the timer automatically
-  if (!isTimerStarted) {
-    startTimer();
-    isTimerStarted = true;
-  }
 }
 
 document.getElementById('submitNickname').addEventListener('click', submitNickname);
