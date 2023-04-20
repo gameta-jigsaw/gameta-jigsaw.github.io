@@ -1,3 +1,20 @@
+// Import Firebase modules
+import { initializeApp } from "https://www.gstatic.com/firebasejs/9.10.0/firebase-app.js";
+import { getAnalytics } from "https://www.gstatic.com/firebasejs/9.10.0/firebase-analytics.js";
+import { getDatabase, ref, set, onValue, push, get, update, child } from "https://www.gstatic.com/firebasejs/9.10.0/firebase-database.js";
+
+// Initialize Firebase
+const firebaseConfig = {
+    apiKey: "AIzaSyA2IqpBUPdNrz05QOWrOQ_6iHTIijGZSu0",
+    authDomain: "gameta-fun.firebaseapp.com",
+    databaseURL: "https://gameta-fun-default-rtdb.asia-southeast1.firebasedatabase.app",
+    projectId: "gameta-fun",
+    storageBucket: "gameta-fun.appspot.com",
+    messagingSenderId: "539136049383",
+    appId: "1:539136049383:web:bf1cf9b023f48e3655e242",
+    measurementId: "G-T8ENH6W0R6"
+};
+
 const canvas = document.getElementById('puzzleCanvas');
 const ctx = canvas.getContext('2d');
 const gridSize = 4;
@@ -45,36 +62,6 @@ function drawPieces(pieces, resizedImg) {
   drawPiecesOnCanvas(ctx, pieces, resizedImg, pieceSize);
 }
 
-function initPuzzle(resizedImg) {
-  const pieces = createShuffledPieces();
-  drawPieces(pieces, resizedImg);
-
-  canvas.addEventListener('click', (event) => {
-    if (!isTimerStarted) {
-      startTimer();
-      isTimerStarted = true;
-    }
-
-    const [x, y] = getClickedPosition(event);
-    const clickedPieceIndex = findPieceAtPosition(pieces, x, y);
-    if (clickedPieceIndex !== -1) {
-      const emptyPieceIndex = findEmptyPiece(pieces);
-      if (areNeighbors(clickedPieceIndex, emptyPieceIndex, gridSize)) {
-        swapPieces(pieces, clickedPieceIndex, emptyPieceIndex);
-        drawPieces(pieces, resizedImg);
-
-        if (isSolved(pieces)) {
-          stopTimer();
-          const elapsedTime = document.getElementById('timer').textContent;
-          alert(`Congratulations! You solved the puzzle in ${elapsedTime}!`);
-          const nickname = document.getElementById('nickname').value;
-          updateCompletionCount(nickname);
-        }
-      }
-    }
-  });
-}
-
 function drawReferencePuzzle(resizedImg) {
   const refCtx = referenceCanvas.getContext('2d');
 
@@ -112,16 +99,20 @@ function startTimer() {
 
 function updateTimer() {
   const currentTime = new Date();
-  const elapsedTime = Math.floor((currentTime - startTime) / 10); // Update to 10 for centiseconds
-  const minutes = Math.floor(elapsedTime / 6000); // Update to 6000 for centiseconds
-  const seconds = Math.floor((elapsedTime % 6000) / 100); // Update to 100 for centiseconds
-  const centiseconds = elapsedTime % 100; // Add this line for centiseconds
-  document.getElementById('timer').textContent = `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}.${String(centiseconds).padStart(2, '0')}`;
+  const elapsedTime = Math.floor((currentTime - startTime) / 1000);
+  const minutes = Math.floor(elapsedTime / 60);
+  const seconds = elapsedTime % 60;
+  const centiseconds = Math.floor((currentTime - startTime) / 10) % 100;
+  document.getElementById('timer').textContent = `${minutes
+    .toString()
+    .padStart(2, '0')}:${seconds
+    .toString()
+    .padStart(2, '0')}.${centiseconds.toString().padStart(2, '0')}`;
 }
-
 
 function stopTimer() {
   clearInterval(timerInterval);
+  isTimerStarted = false;
 }
 
 function createShuffledPieces() {
@@ -240,25 +231,6 @@ function isSolved(pieces) {
   return pieces.every((piece, index) => piece === index);
 }
 
-import { initializeApp } from "https://www.gstatic.com/firebasejs/9.10.0/firebase-app.js";
-import { getAnalytics } from "https://www.gstatic.com/firebasejs/9.10.0/firebase-analytics.js";
-import { getDatabase, ref, set, onValue, push, get, update, child } from "https://www.gstatic.com/firebasejs/9.10.0/firebase-database.js";
-
-const firebaseConfig = {
-    apiKey: "AIzaSyA2IqpBUPdNrz05QOWrOQ_6iHTIijGZSu0",
-    authDomain: "gameta-fun.firebaseapp.com",
-    databaseURL: "https://gameta-fun-default-rtdb.asia-southeast1.firebasedatabase.app",
-    projectId: "gameta-fun",
-    storageBucket: "gameta-fun.appspot.com",
-    messagingSenderId: "539136049383",
-    appId: "1:539136049383:web:bf1cf9b023f48e3655e242",
-    measurementId: "G-T8ENH6W0R6"
-};
-
-const app = initializeApp(firebaseConfig);
-const analytics = getAnalytics(app);
-const database = getDatabase(app);
-
 async function submitNickname() {
   const nickname = document.getElementById('nickname').value;
   if (nickname) {
@@ -289,38 +261,11 @@ async function submitNickname() {
   }
 }
 
-
-function toggleLeaderboard() {
-  const leaderboard = document.getElementById('leaderboard');
-  leaderboard.classList.toggle('hidden');
-}
-
-function fetchLeaderboard() {
-  const nicknamesRef = ref(database, 'nicknames');
-  onValue(nicknamesRef, (snapshot) => {
-    const data = snapshot.val();
-
-    const leaderboardList = document.createElement('ol');
-    const sortedNicknames = Object.entries(data).sort((a, b) => b[1].completionCount - a[1].completionCount);
-
-    sortedNicknames.forEach(([nickname, entry]) => {
-      const listItem = document.createElement('li');
-      listItem.textContent = `${nickname}: ${entry.completionCount}`;
-      leaderboardList.appendChild(listItem);
-    });
-
-    const leaderboardDiv = document.getElementById('leaderboard');
-    leaderboardDiv.innerHTML = ''; // Clear previous leaderboard content
-    leaderboardDiv.appendChild(leaderboardList);
-  });
-}
-
-
 async function updateCompletionCount(nickname) {
   const nicknamesRef = ref(database, 'nicknames');
   const nicknameRef = child(nicknamesRef, nickname);
   const snapshot = await get(nicknameRef);
-    
+
   if (snapshot.exists()) {
     const data = snapshot.val();
     const updatedCompletionCount = data.completionCount + 1;
@@ -331,12 +276,6 @@ async function updateCompletionCount(nickname) {
 }
 
 function initEventListeners() {
-  document.getElementById('leaderboardButton').addEventListener('click', function (event) {
-    event.preventDefault();
-    toggleLeaderboard();
-    fetchLeaderboard();
-  });
-
   document.getElementById('submitNickname').addEventListener('click', function () {
     submitNickname();
   });
@@ -344,4 +283,35 @@ function initEventListeners() {
 
 document.addEventListener('DOMContentLoaded', initEventListeners);
 
+function initPuzzle(resizedImg) {
+  const ctx = canvas.getContext('2d');
 
+  const shuffledPieces = createShuffledPieces();
+  drawPiecesOnCanvas(ctx, shuffledPieces, resizedImg, pieceSize);
+
+  canvas.addEventListener('click', async (event) => {
+    const [x, y] = getClickedPosition(event);
+    const clickedPieceIndex = findPieceAtPosition(shuffledPieces, x, y);
+    const emptyPieceIndex = findEmptyPiece(shuffledPieces);
+
+    if (clickedPieceIndex !== -1 && areNeighbors(clickedPieceIndex, emptyPieceIndex, gridSize)) {
+      swapPieces(shuffledPieces, clickedPieceIndex, emptyPieceIndex);
+      drawPiecesOnCanvas(ctx, shuffledPieces, resizedImg, pieceSize);
+      if (isSolved(shuffledPieces)) {
+        const nickname = document.getElementById('nickname').value;
+        await updateCompletionCount(nickname);
+        alert('Congratulations! You solved the puzzle!');
+        // Restart the puzzle after it is solved
+        initPuzzle(resizedImg);
+      }
+    }
+  });
+}
+
+window.onload = function () {
+  if (window.imageSrc) {
+    loadImage(window.imageSrc).then(resizedImg => initPuzzle(resizedImg));
+  } else {
+    alert('Image source is not available.');
+  }
+};
