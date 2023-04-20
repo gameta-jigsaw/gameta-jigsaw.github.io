@@ -296,13 +296,25 @@ function toggleLeaderboard() {
 }
 
 function fetchLeaderboard() {
-    const nicknamesRef = ref(database, 'nicknames');
-    onValue(nicknamesRef, (snapshot) => {
-        const data = snapshot.val();
-        // Process and display the leaderboard data here
-        console.log(data);
+  const nicknamesRef = ref(database, 'nicknames');
+  onValue(nicknamesRef, (snapshot) => {
+    const data = snapshot.val();
+
+    const leaderboardList = document.createElement('ol');
+    const sortedNicknames = Object.entries(data).sort((a, b) => b[1].completionCount - a[1].completionCount);
+
+    sortedNicknames.forEach(([nickname, entry]) => {
+      const listItem = document.createElement('li');
+      listItem.textContent = `${nickname}: ${entry.completionCount}`;
+      leaderboardList.appendChild(listItem);
     });
+
+    const leaderboardDiv = document.getElementById('leaderboard');
+    leaderboardDiv.innerHTML = ''; // Clear previous leaderboard content
+    leaderboardDiv.appendChild(leaderboardList);
+  });
 }
+
 
 async function updateCompletionCount(nickname) {
   const nicknamesRef = ref(database, 'nicknames');
@@ -319,7 +331,7 @@ async function updateCompletionCount(nickname) {
 }
 
 function initEventListeners() {
-  document.getElementById('leaderboardIcon').addEventListener('click', function (event) {
+  document.getElementById('leaderboardButton').addEventListener('click', function (event) {
     event.preventDefault();
     toggleLeaderboard();
     fetchLeaderboard();
