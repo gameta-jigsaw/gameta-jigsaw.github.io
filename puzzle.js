@@ -341,6 +341,7 @@ function initClickEventListener(shuffledPieces, resizedImg) {
 }
 
 function initPuzzle(resizedImg) {
+  puzzleSolved = false; 
   const ctx = canvas.getContext('2d');
   const shuffledPieces = createShuffledPieces();
   drawPiecesOnCanvas(ctx, shuffledPieces, resizedImg, pieceSize);
