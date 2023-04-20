@@ -314,15 +314,16 @@ async function initPuzzle(resizedImg) {
   const ctx = canvas.getContext('2d');
   const shuffledPieces = createShuffledPieces();
   drawPiecesOnCanvas(ctx, shuffledPieces, resizedImg, pieceSize);
-  initClickEventListener(shuffledPieces, resizedImg, onCanvasClick);
+  initClickEventListener(shuffledPieces, resizedImg, ctx);
 }
 
-function initClickEventListener(shuffledPieces, resizedImg, eventHandler) {
+function initClickEventListener(shuffledPieces, resizedImg, ctx) {
+  const eventHandler = onCanvasClick.bind(null, shuffledPieces, resizedImg, ctx); // Bind the variables to the event handler
   canvas.removeEventListener('click', eventHandler); // Remove the existing event listener
   canvas.addEventListener('click', eventHandler); // Add the new event listener
 }
 
-async function onCanvasClick(event) {
+async function onCanvasClick(shuffledPieces, resizedImg, ctx, event) {
   if (puzzleSolved) {
     return; // Do not allow clicking on the puzzle if it's already solved
   }
