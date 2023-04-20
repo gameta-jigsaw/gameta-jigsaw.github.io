@@ -322,6 +322,7 @@ function initPuzzle(resizedImg) {
   const ctx = canvas.getContext('2d');
   const shuffledPieces = createShuffledPieces();
   drawPiecesOnCanvas(ctx, shuffledPieces, resizedImg, pieceSize);
+  initClickEventListener(shuffledPieces, resizedImg);
 }
 
 function initEventListeners() {
@@ -335,8 +336,6 @@ document.addEventListener('DOMContentLoaded', async () => {
   if (window.imageSrc) {
     const resizedImg = await loadImage(window.imageSrc);
     initPuzzle(resizedImg);
-    const shuffledPieces = createShuffledPieces();
-    initClickEventListener(shuffledPieces, resizedImg);
   }
 });
 
