@@ -293,11 +293,6 @@ function getFormattedTime() {
 
 function initClickEventListener(shuffledPieces, resizedImg) {
   canvas.addEventListener('click', async (event) => {
-    if (!isTimerStarted) {
-      startTimer();
-      isTimerStarted = true;
-    }
-
     const [x, y] = getClickedPosition(event);
     const clickedPieceIndex = findPieceAtPosition(shuffledPieces, x, y);
     const emptyPieceIndex = findEmptyPiece(shuffledPieces);
@@ -306,8 +301,6 @@ function initClickEventListener(shuffledPieces, resizedImg) {
       swapPieces(shuffledPieces, clickedPieceIndex, emptyPieceIndex);
       drawPiecesOnCanvas(ctx, shuffledPieces, resizedImg, pieceSize);
       if (isSolved(shuffledPieces)) {
-        const nickname = document.getElementById('nickname').value;
-        await updateCompletionCount(nickname);
         const completionTime = getFormattedTime();
         alert(`Congratulations! You solved the puzzle in ${completionTime}!`);
         stopTimer();
@@ -323,19 +316,12 @@ function initPuzzle(resizedImg) {
   const shuffledPieces = createShuffledPieces();
   drawPiecesOnCanvas(ctx, shuffledPieces, resizedImg, pieceSize);
   initClickEventListener(shuffledPieces, resizedImg);
-}
 
-function initEventListeners() {
-  const submitButton = document.getElementById('submitNickname');
-  submitButton.addEventListener('click', function (event) {
-    event.preventDefault();
-    submitNickname();
-  });
-
-  submitButton.addEventListener('touchend', function (event) {
-    event.preventDefault();
-    submitNickname();
-  });
+  // Start the timer automatically
+  if (!isTimerStarted) {
+    startTimer();
+    isTimerStarted = true;
+  }
 }
 
 
