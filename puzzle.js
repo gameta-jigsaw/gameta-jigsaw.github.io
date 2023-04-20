@@ -282,8 +282,6 @@ async function updateCompletionCount(nickname) {
   }
 }
 
-let isTimerStarted = false;
-
 function getFormattedTime() {
   const currentTime = new Date();
   const elapsedTime = Math.floor((currentTime - startTime) / 1000);
