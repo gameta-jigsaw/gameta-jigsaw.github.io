@@ -328,7 +328,7 @@ function initPuzzle(resizedImg) {
 }
 
 function initEventListeners() {
-  document.getElementById('nicknameForm').addEventListener('submit', function (event) {
+  document.getElementById('submitNickname').addEventListener('click', function (event) {
     event.preventDefault();
     submitNickname();
   });
