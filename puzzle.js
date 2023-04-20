@@ -23,6 +23,7 @@ const analytics = getAnalytics(app);
 const database = getDatabase(app);
 
 const canvas = document.getElementById('puzzleCanvas');
+const replayButton = document.getElementById('replayButton');
 const ctx = canvas.getContext('2d');
 const gridSize = 4;
 const pieceSize = canvas.width / gridSize;
@@ -300,7 +301,10 @@ function initializeTimer() {
 
 function initClickEventListener(shuffledPieces, resizedImg) {
   canvas.addEventListener('click', async (event) => {
-    initializeTimer();
+    if (!isTimerStarted) {
+      startTimer();
+      isTimerStarted = true;
+    }
 
     const [x, y] = getClickedPosition(event);
     const clickedPieceIndex = findPieceAtPosition(shuffledPieces, x, y);
@@ -314,7 +318,7 @@ function initClickEventListener(shuffledPieces, resizedImg) {
         alert(`Congratulations! You solved the puzzle in ${completionTime}!`);
         stopTimer();
         isTimerStarted = false;
-        initPuzzle(resizedImg);
+        replayButton.classList.remove('hidden'); // Show the replay button
       }
     }
   });
@@ -329,3 +333,8 @@ function initPuzzle(resizedImg) {
 
 document.getElementById('submitNickname').addEventListener('click', submitNickname);
 
+replayButton.addEventListener('click', async () => {
+  replayButton.classList.add('hidden');
+  const resizedImg = await loadImage(window.imageSrc);
+  initPuzzle(resizedImg);
+});
