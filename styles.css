@@ -37,9 +37,16 @@ header {
 }
 
 .leaderboard-icon {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  width: 50px;
+  height: 50px;
+  fill: #000;
   cursor: pointer;
-  margin-right: 1rem;
+  z-index: 1;
 }
+
 
 .leaderboard-icon img {
   height: 40px;
