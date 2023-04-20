@@ -319,7 +319,7 @@ async function updateCompletionCount(nickname) {
 }
 
 function initEventListeners() {
-  document.querySelector('img[src="./leaderboard.svg"]').addEventListener('click', function (event) {
+  document.getElementById('leaderboardIcon').addEventListener('click', function (event) {
     event.preventDefault();
     toggleLeaderboard();
     fetchLeaderboard();
@@ -331,4 +331,5 @@ function initEventListeners() {
 }
 
 document.addEventListener('DOMContentLoaded', initEventListeners);
+
 
