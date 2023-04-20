@@ -315,10 +315,4 @@ function initPuzzle(resizedImg) {
   });
 }
 
-window.onload = function () {
-  if (window.imageSrc) {
-    loadImage(window.imageSrc).then(resizedImg => initPuzzle(resizedImg));
-  } else {
-    alert('Image source is not available.');
-  }
-};
+
