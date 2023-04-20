@@ -324,6 +324,12 @@ function initPuzzle(resizedImg) {
   drawPiecesOnCanvas(ctx, shuffledPieces, resizedImg, pieceSize);
 }
 
+function initEventListeners() {
+  document.getElementById('submitNickname').addEventListener('click', function () {
+    submitNickname();
+  });
+}
+
 document.addEventListener('DOMContentLoaded', async () => {
   initEventListeners();
   if (window.imageSrc) {
@@ -333,3 +339,4 @@ document.addEventListener('DOMContentLoaded', async () => {
     initClickEventListener(shuffledPieces, resizedImg);
   }
 });
+
