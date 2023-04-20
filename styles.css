@@ -36,23 +36,6 @@ header {
   margin-left: 1rem;
 }
 
-.leaderboard-icon {
-  position: absolute;
-  top: 20px;
-  right: 20px;
-  width: 50px;
-  height: 50px;
-  fill: #000;
-  cursor: pointer;
-  z-index: 1;
-}
-
-
-.leaderboard-icon img {
-  height: 40px;
-  width: auto;
-}
-
 .container {
   display: flex;
   flex-direction: column;
@@ -117,17 +100,6 @@ canvas {
   color: black;
 }
 
-#leaderboard {
-  position: absolute;
-  top: 60px;
-  right: 0;
-  background-color: #ffffff;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
-  border-radius: 0 0 0 5px;
-  padding: 1rem;
-  width: 300px;
-}
-
 .hidden {
   display: none;
 }
@@ -136,20 +108,4 @@ canvas {
   transition: opacity 0.3s ease-in;
 }
 
-.leaderboard-button {
-  border: none;
-  background: none;
-  padding: 0;
-  margin: 0;
-  cursor: pointer;
-}
 
-.leaderboard-button:focus {
-  outline: none;
-}
-
-.leaderboard-button img {
-  height: 40px;
-  width: auto;
-  margin-right: 20px;
-}
