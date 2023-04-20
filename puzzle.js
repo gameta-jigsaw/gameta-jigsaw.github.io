@@ -308,6 +308,8 @@ function initializeTimer() {
   }
 }
 
+
+
 function initClickEventListener(shuffledPieces, resizedImg) {
   canvas.addEventListener('click', async (event) => {
     if (puzzleSolved) {
