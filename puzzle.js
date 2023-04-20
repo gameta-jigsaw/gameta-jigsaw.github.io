@@ -293,6 +293,11 @@ function getFormattedTime() {
 
 function initClickEventListener(shuffledPieces, resizedImg) {
   canvas.addEventListener('click', async (event) => {
+    if (!isTimerStarted) {
+      startTimer();
+      isTimerStarted = true;
+    }
+
     const [x, y] = getClickedPosition(event);
     const clickedPieceIndex = findPieceAtPosition(shuffledPieces, x, y);
     const emptyPieceIndex = findEmptyPiece(shuffledPieces);
@@ -310,6 +315,7 @@ function initClickEventListener(shuffledPieces, resizedImg) {
     }
   });
 }
+
 
 function initPuzzle(resizedImg) {
   const ctx = canvas.getContext('2d');
