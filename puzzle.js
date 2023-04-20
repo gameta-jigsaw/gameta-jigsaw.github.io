@@ -322,6 +322,8 @@ function initClickEventListener(shuffledPieces, resizedImg) {
       drawPiecesOnCanvas(ctx, shuffledPieces, resizedImg, pieceSize);
       if (isSolved(shuffledPieces)) {
         const completionTime = getFormattedTime();
+        const nickname = document.getElementById('nickname').value;
+        await updateCompletionCount(nickname);
         alert(`Congratulations! You solved the puzzle in ${completionTime}!`);
         stopTimer();
         isTimerStarted = false;
