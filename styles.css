@@ -28,6 +28,8 @@ header {
   height: 60px;
   background-color: #1a001a;
   padding-top: 10px;
+  padding-left: 1rem;
+  padding-right: 1rem;
   z-index: 200;
 }
 
@@ -35,6 +37,9 @@ header {
   height: 75px;
   width: auto;
   margin-left: 1rem;
+  position: absolute;
+  left: 0;
+  top: 10px;
 }
 
 .container {
