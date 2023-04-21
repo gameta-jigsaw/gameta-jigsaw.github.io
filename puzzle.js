@@ -311,10 +311,16 @@ function initializeTimer() {
 async function initPuzzle(resizedImg) {
   puzzleSolved = false;
   const ctx = canvas.getContext('2d');
-  const shuffledPieces = createShuffledPieces();
+  let shuffledPieces;
+  
+  do {
+    shuffledPieces = createShuffledPieces();
+  } while (!isSolvable(shuffledPieces, gridSize));
+
   drawPiecesOnCanvas(ctx, shuffledPieces, resizedImg, pieceSize);
   initClickEventListener(shuffledPieces, resizedImg, ctx);
 }
+
 
 function initClickEventListener(shuffledPieces, resizedImg, ctx) {
   const eventHandler = onCanvasClick.bind(null, shuffledPieces, resizedImg, ctx);
