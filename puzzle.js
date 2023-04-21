@@ -62,7 +62,7 @@ function loadImage(src) {
   imageSrc = randomImage;
   
   const resizedImg = await loadImage(randomImage);
-  initPuzzle(resizedImg);
+  generateSolvablePuzzle(resizedImg);
   drawReferencePuzzle(resizedImg);
   
   window.imageSrc = randomImage;
@@ -308,19 +308,23 @@ function initializeTimer() {
   }
 }
 
-async function initPuzzle(resizedImg) {
+async function initPuzzle(resizedImg, shuffledPieces) {
   puzzleSolved = false;
   const ctx = canvas.getContext('2d');
-  let shuffledPieces;
-  
-  do {
-    shuffledPieces = createShuffledPieces();
-  } while (!isSolvable(shuffledPieces, gridSize));
-
   drawPiecesOnCanvas(ctx, shuffledPieces, resizedImg, pieceSize);
   initClickEventListener(shuffledPieces, resizedImg, ctx);
 }
 
+
+async function generateSolvablePuzzle(resizedImg) {
+  let shuffledPieces;
+
+  do {
+    shuffledPieces = createShuffledPieces();
+  } while (!isSolvable(shuffledPieces, gridSize));
+
+  initPuzzle(resizedImg, shuffledPieces);
+}
 
 function initClickEventListener(shuffledPieces, resizedImg, ctx) {
   const eventHandler = onCanvasClick.bind(null, shuffledPieces, resizedImg, ctx);
@@ -364,7 +368,7 @@ replayButton.addEventListener('click', async () => {
   replayButton.classList.add('hidden');
   resetTimer();
   const resizedImg = await loadImage(window.imageSrc);
-  initPuzzle(resizedImg);
+  generateSolvablePuzzle(resizedImg);
 });
 
 function navigateToLeaderboard() {
