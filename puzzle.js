@@ -380,7 +380,7 @@ async function displayLeaderboard() {
   });
 }
 
-async function toggleLeaderboard() {
+window.toggleLeaderboard = async function() {
   console.log('Leaderboard icon clicked');
   const leaderboard = document.getElementById('leaderboard');
   if (leaderboard.classList.contains('hidden')) {
