@@ -360,3 +360,7 @@ replayButton.addEventListener('click', async () => {
   const resizedImg = await loadImage(window.imageSrc);
   initPuzzle(resizedImg);
 });
+
+function navigateToLeaderboard() {
+  window.location.href = 'jigsaw-stats.html';
+}
