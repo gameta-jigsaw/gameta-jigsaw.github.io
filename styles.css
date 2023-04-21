@@ -30,6 +30,7 @@ header {
   padding-top: 10px;
   padding-left: 1rem;
   padding-right: 1rem;
+  z-index: 200;
 }
 
 header a {
