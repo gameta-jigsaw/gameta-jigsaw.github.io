@@ -154,3 +154,17 @@ canvas {
   font-size: 1.2rem;
   cursor: pointer;
 }
+
+#leaderboardText {
+  color: white;
+  font-size: 18px;
+  font-weight: bold;
+  text-decoration: none;
+  position: absolute;
+  top: 15px;
+  right: 15px;
+}
+
+#leaderboardText:hover {
+  color: #cccccc;
+}
