@@ -380,14 +380,17 @@ async function displayLeaderboard() {
   });
 }
 
-document.getElementById('leaderboardIcon').addEventListener('click', async () => {
-  console.log('Leaderboard icon clicked'); // Add this line for debugging
-  const leaderboard = document.getElementById('leaderboard');
-  if (leaderboard.classList.contains('hidden')) {
-    leaderboard.classList.remove('hidden');
-    await displayLeaderboard(); // Fetch and display the leaderboard data
-  } else {
-    leaderboard.classList.add('hidden');
-  }
+document.addEventListener('DOMContentLoaded', () => {
+  document.getElementById('leaderboardIcon').addEventListener('click', async () => {
+    console.log('Leaderboard icon clicked');
+    const leaderboard = document.getElementById('leaderboard');
+    if (leaderboard.classList.contains('hidden')) {
+      leaderboard.classList.remove('hidden');
+      await displayLeaderboard(); // Fetch and display the leaderboard data
+    } else {
+      leaderboard.classList.add('hidden');
+    }
+  });
 });
+
 
