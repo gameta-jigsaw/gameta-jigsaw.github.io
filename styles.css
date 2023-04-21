@@ -32,6 +32,13 @@ header {
   padding-right: 1rem;
 }
 
+header a {
+  display: inline-block;
+  position: absolute;
+  top: 15px;
+  right: 15px;
+}
+
 #logo {
   height: 75px;
   width: auto;
@@ -115,9 +122,6 @@ canvas {
   cursor: pointer;
   height: 40px;
   width: 40px;
-  /* position: absolute; */ /* Remove this line */
-  /* top: 15px; */ /* Remove this line */
-  /* right: 15px; */ /* Remove this line */
 }
 
 #leaderboard {
