@@ -28,6 +28,8 @@ header {
   height: 60px;
   background-color: #1a001a;
   padding-top: 10px;
+  padding-left: 1rem;
+  padding-right: 1rem;
 }
 
 #logo {
@@ -113,9 +115,9 @@ canvas {
   cursor: pointer;
   height: 40px;
   width: 40px;
-  position: absolute;
-  top: 15px;
-  right: 15px;
+  /* position: absolute; */ /* Remove this line */
+  /* top: 15px; */ /* Remove this line */
+  /* right: 15px; */ /* Remove this line */
 }
 
 #leaderboard {
