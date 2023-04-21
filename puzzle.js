@@ -308,7 +308,6 @@ function initializeTimer() {
   }
 }
 
-
 async function initPuzzle(resizedImg) {
   puzzleSolved = false;
   const ctx = canvas.getContext('2d');
@@ -318,14 +317,14 @@ async function initPuzzle(resizedImg) {
 }
 
 function initClickEventListener(shuffledPieces, resizedImg, ctx) {
-  const eventHandler = onCanvasClick.bind(null, shuffledPieces, resizedImg, ctx); // Bind the variables to the event handler
-  canvas.removeEventListener('click', eventHandler); // Remove the existing event listener
-  canvas.addEventListener('click', eventHandler); // Add the new event listener
+  const eventHandler = onCanvasClick.bind(null, shuffledPieces, resizedImg, ctx);
+  canvas.removeEventListener('click', eventHandler);
+  canvas.addEventListener('click', eventHandler);
 }
 
 async function onCanvasClick(shuffledPieces, resizedImg, ctx, event) {
   if (puzzleSolved) {
-    return; // Do not allow clicking on the puzzle if it's already solved
+    return;
   }
 
   if (!isTimerStarted) {
@@ -361,37 +360,3 @@ replayButton.addEventListener('click', async () => {
   const resizedImg = await loadImage(window.imageSrc);
   initPuzzle(resizedImg);
 });
-
-async function displayLeaderboard() {
-  const leaderboardContent = document.getElementById('leaderboardContent');
-  leaderboardContent.innerHTML = ''; // Clear the previous content
-
-  const snapshot = await get(ref(database, 'nicknames'));
-  const leaderboardData = snapshot.val();
-
-  // Sort leaderboard data by completion count
-  const sortedData = Object.entries(leaderboardData).sort((a, b) => b[1].completionCount - a[1].completionCount);
-
-  // Display leaderboard data
-  sortedData.forEach(([nickname, data]) => {
-    const entry = document.createElement('div');
-    entry.textContent = `${nickname}: ${data.completionCount}`;
-    leaderboardContent.appendChild(entry);
-  });
-}
-
-window.toggleLeaderboard = async function() {
-  console.log('Leaderboard icon clicked');
-  const leaderboard = document.getElementById('leaderboard');
-  if (leaderboard.classList.contains('hidden')) {
-    leaderboard.classList.remove('hidden');
-    await displayLeaderboard(); // Fetch and display the leaderboard data
-  } else {
-    leaderboard.classList.add('hidden');
-  }
-}
-
-const leaderboardIcon = document.getElementById('leaderboardIcon');
-leaderboardIcon.addEventListener('click', toggleLeaderboard);
-
-
