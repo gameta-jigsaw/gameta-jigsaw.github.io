@@ -62,7 +62,7 @@ function loadImage(src) {
   imageSrc = randomImage;
   
   const resizedImg = await loadImage(randomImage);
-  generateSolvablePuzzle(resizedImg);
+  initPuzzle(resizedImg);
   drawReferencePuzzle(resizedImg);
   
   window.imageSrc = randomImage;
@@ -308,22 +308,12 @@ function initializeTimer() {
   }
 }
 
-async function initPuzzle(resizedImg, shuffledPieces) {
+async function initPuzzle(resizedImg) {
   puzzleSolved = false;
   const ctx = canvas.getContext('2d');
+  const shuffledPieces = createShuffledPieces();
   drawPiecesOnCanvas(ctx, shuffledPieces, resizedImg, pieceSize);
   initClickEventListener(shuffledPieces, resizedImg, ctx);
-}
-
-
-async function generateSolvablePuzzle(resizedImg) {
-  let shuffledPieces;
-
-  do {
-    shuffledPieces = createShuffledPieces();
-  } while (!isSolvable(shuffledPieces, gridSize));
-
-  initPuzzle(resizedImg, shuffledPieces);
 }
 
 function initClickEventListener(shuffledPieces, resizedImg, ctx) {
@@ -368,7 +358,7 @@ replayButton.addEventListener('click', async () => {
   replayButton.classList.add('hidden');
   resetTimer();
   const resizedImg = await loadImage(window.imageSrc);
-  generateSolvablePuzzle(resizedImg);
+  initPuzzle(resizedImg);
 });
 
 function navigateToLeaderboard() {
