@@ -33,13 +33,6 @@ header {
   z-index: 200;
 }
 
-header a {
-  display: inline-block;
-  position: absolute;
-  top: 15px;
-  right: 15px;
-}
-
 #logo {
   height: 75px;
   width: auto;
@@ -147,13 +140,6 @@ canvas {
 
 #leaderboardContent {
   margin-top: 20px;
-}
-
-.leaderboard-link {
-  color: #ffffff;
-  text-decoration: underline;
-  font-size: 1.2rem;
-  cursor: pointer;
 }
 
 #leaderboardText {
