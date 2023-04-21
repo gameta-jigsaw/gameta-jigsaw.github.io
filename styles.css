@@ -141,3 +141,10 @@ canvas {
 #leaderboardContent {
   margin-top: 20px;
 }
+
+.leaderboard-link {
+  color: #ffffff;
+  text-decoration: underline;
+  font-size: 1.2rem;
+  cursor: pointer;
+}
