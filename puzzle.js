@@ -391,4 +391,7 @@ window.toggleLeaderboard = async function() {
   }
 }
 
+const leaderboardIcon = document.getElementById('leaderboardIcon');
+leaderboardIcon.addEventListener('click', toggleLeaderboard);
+
 
