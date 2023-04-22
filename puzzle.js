@@ -138,12 +138,12 @@ function createShuffledPieces() {
   const pieceCount = gridSize * gridSize;
   const pieces = Array.from({ length: pieceCount }, (_, i) => i);
 
-  const numberOfMoves = 200; // Adjust this value to change the difficulty level
-
   let emptyPieceIndex = pieceCount - 1;
 
   do {
-    for (let i = 0; i < numberOfMoves; i++) {
+    let numberOfMoves = 200; // Adjust this value to change the difficulty level
+
+    while (numberOfMoves > 0) {
       const possibleMoves = [
         emptyPieceIndex - 1, // left
         emptyPieceIndex + 1, // right
@@ -155,8 +155,10 @@ function createShuffledPieces() {
 
       swapPieces(pieces, randomMove, emptyPieceIndex);
       emptyPieceIndex = randomMove;
+
+      numberOfMoves--;
     }
-  } while (isSolved(pieces));
+  } while (isSolved(pieces) || !isSolvable(pieces, gridSize));
 
   isShuffling = false;
   return pieces;
