@@ -259,7 +259,7 @@ async function submitNickname() {
   const nickname = nicknameInput.value;
 
   if (nickname && isValidNickname(nickname)) {
-    const lowercaseNickname = nickname.toLowerCase();
+    const lowercaseNickname = nickname.toLowerCase().replace('#', '_');
     const nicknamesRef = ref(database, 'nicknames');
     const nicknameRef = child(nicknamesRef, lowercaseNickname);
     const snapshot = await get(nicknameRef);
