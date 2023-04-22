@@ -34,6 +34,7 @@ const referencePieceSize = referenceCanvas.width / gridSize;
 
 let timerInterval;
 let startTime;
+let currentShuffledPieces = [];
 let isTimerStarted = false;
 let imageSrc = '';
 let puzzleSolved = false;
@@ -332,9 +333,9 @@ function initializeTimer() {
 async function initPuzzle(resizedImg) {
   puzzleSolved = false;
   const ctx = canvas.getContext('2d');
-  const shuffledPieces = createShuffledPieces(currentShuffledPieces);
-  drawPiecesOnCanvas(ctx, shuffledPieces, resizedImg, pieceSize);
-  initClickEventListener(shuffledPieces, resizedImg, ctx);
+  currentShuffledPieces = createShuffledPieces(currentShuffledPieces); // Pass the current shuffled pieces
+  drawPiecesOnCanvas(ctx, currentShuffledPieces, resizedImg, pieceSize);
+  initClickEventListener(currentShuffledPieces, resizedImg, ctx);
 }
 
 function initClickEventListener(shuffledPieces, resizedImg, ctx) {
