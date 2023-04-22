@@ -290,8 +290,9 @@ async function submitNickname() {
 }
 
 async function updateCompletionCount(nickname) {
+  const lowercaseNickname = nickname.toLowerCase().replace('#', '_');
   const nicknamesRef = ref(database, 'nicknames');
-  const nicknameRef = child(nicknamesRef, nickname);
+  const nicknameRef = child(nicknamesRef, lowercaseNickname);
   const snapshot = await get(nicknameRef);
 
   if (snapshot.exists()) {
