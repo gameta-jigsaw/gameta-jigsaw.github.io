@@ -350,7 +350,7 @@ function initClickEventListener(shuffledPieces, resizedImg, ctx, delay = 0) {
 }
 
 async function onCanvasClick(shuffledPieces, resizedImg, ctx, event) {
-  if (puzzleSolved) {
+  if (puzzleSolved || isShuffling) {
     return;
   }
 
