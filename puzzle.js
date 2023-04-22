@@ -249,11 +249,19 @@ function isSolved(pieces) {
   return pieces.every((piece, index) => piece === index);
 }
 
+function isValidNickname(nickname) {
+  const regex = /^[a-zA-Z0-9]+#(\d{4})$/;
+  return regex.test(nickname);
+}
+
 async function submitNickname() {
-  const nickname = document.getElementById('nickname').value;
-  if (nickname) {
+  const nicknameInput = document.getElementById('nickname');
+  const nickname = nicknameInput.value;
+
+  if (nickname && isValidNickname(nickname)) {
+    const lowercaseNickname = nickname.toLowerCase();
     const nicknamesRef = ref(database, 'nicknames');
-    const nicknameRef = child(nicknamesRef, nickname);
+    const nicknameRef = child(nicknamesRef, lowercaseNickname);
     const snapshot = await get(nicknameRef);
 
     if (!snapshot.exists()) {
@@ -268,14 +276,14 @@ async function submitNickname() {
       alert('Image source is not available.');
     }
 
-    const nicknameInput = document.querySelector('.nickname-input');
+    const nicknameInputContainer = document.querySelector('.nickname-input');
     const puzzleWrapper = document.getElementById('puzzleWrapper');
 
-    nicknameInput.classList.add('hidden');
+    nicknameInputContainer.classList.add('hidden');
     puzzleWrapper.classList.remove('hidden');
 
   } else {
-    alert('Please enter a valid nickname.');
+    alert('Please enter a valid Discord Username.');
   }
 }
 
