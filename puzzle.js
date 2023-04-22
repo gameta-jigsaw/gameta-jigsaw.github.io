@@ -139,6 +139,7 @@ function createShuffledPieces() {
 
   let emptyPieceIndex = pieceCount - 1;
 
+  // Ensure that the new shuffled pieces are different from the previous game
   do {
     for (let i = 0; i < numberOfMoves; i++) {
       const possibleMoves = [
@@ -153,11 +154,19 @@ function createShuffledPieces() {
       swapPieces(pieces, randomMove, emptyPieceIndex);
       emptyPieceIndex = randomMove;
     }
-  } while (isSolved(pieces));
-    
-  emptyPieceIndex = pieces.indexOf(pieceCount - 1);
-    
+  } while (isSolved(pieces) || areSimilar(shuffledPieces, pieces));
+
   return pieces;
+}
+
+function areSimilar(pieces1, pieces2) {
+  if (pieces1.length !== pieces2.length) return false;
+  let differences = 0;
+  for (let i = 0; i < pieces1.length; i++) {
+    if (pieces1[i] !== pieces2[i]) differences++;
+    if (differences > 2) return false;
+  }
+  return true;
 }
 
 function isValidMove(move, emptyPieceIndex, gridSize) {
