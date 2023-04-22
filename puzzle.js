@@ -370,7 +370,9 @@ replayButton.addEventListener('click', async () => {
   replayButton.classList.add('hidden');
   resetTimer();
   const resizedImg = await loadImage(window.imageSrc);
-  initPuzzle(resizedImg);
+  setTimeout(() => {
+    initPuzzle(resizedImg);
+  }, 500);
 });
 
 function navigateToLeaderboard() {
