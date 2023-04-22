@@ -131,7 +131,6 @@ function resetTimer() {
   document.getElementById('timer').textContent = '00:00';
 }
 
-
 function createShuffledPieces() {
   const pieceCount = gridSize * gridSize;
   const pieces = Array.from({ length: pieceCount }, (_, i) => i);
@@ -140,19 +139,21 @@ function createShuffledPieces() {
 
   let emptyPieceIndex = pieceCount - 1;
 
-  for (let i = 0; i < numberOfMoves; i++) {
-    const possibleMoves = [
-      emptyPieceIndex - 1, // left
-      emptyPieceIndex + 1, // right
-      emptyPieceIndex - gridSize, // up
-      emptyPieceIndex + gridSize, // down
-    ].filter((move) => isValidMove(move, emptyPieceIndex, gridSize));
+  do {
+    for (let i = 0; i < numberOfMoves; i++) {
+      const possibleMoves = [
+        emptyPieceIndex - 1, // left
+        emptyPieceIndex + 1, // right
+        emptyPieceIndex - gridSize, // up
+        emptyPieceIndex + gridSize, // down
+      ].filter((move) => isValidMove(move, emptyPieceIndex, gridSize));
 
-    const randomMove = possibleMoves[Math.floor(Math.random() * possibleMoves.length)];
+      const randomMove = possibleMoves[Math.floor(Math.random() * possibleMoves.length)];
 
-    swapPieces(pieces, randomMove, emptyPieceIndex);
-    emptyPieceIndex = randomMove;
-  }
+      swapPieces(pieces, randomMove, emptyPieceIndex);
+      emptyPieceIndex = randomMove;
+    }
+  } while (isSolved(pieces));
 
   return pieces;
 }
