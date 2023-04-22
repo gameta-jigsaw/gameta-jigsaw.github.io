@@ -333,15 +333,17 @@ function initializeTimer() {
 async function initPuzzle(resizedImg) {
   puzzleSolved = false;
   const ctx = canvas.getContext('2d');
-  currentShuffledPieces = createShuffledPieces(currentShuffledPieces); // Pass the current shuffled pieces
+  currentShuffledPieces = createShuffledPieces(currentShuffledPieces);
   drawPiecesOnCanvas(ctx, currentShuffledPieces, resizedImg, pieceSize);
-  initClickEventListener(currentShuffledPieces, resizedImg, ctx);
+  initClickEventListener(currentShuffledPieces, resizedImg, ctx, 5000);
 }
 
-function initClickEventListener(shuffledPieces, resizedImg, ctx) {
+function initClickEventListener(shuffledPieces, resizedImg, ctx, delay = 0) {
   const eventHandler = onCanvasClick.bind(null, shuffledPieces, resizedImg, ctx);
   canvas.removeEventListener('click', eventHandler);
-  canvas.addEventListener('click', eventHandler);
+  setTimeout(() => {
+    canvas.addEventListener('click', eventHandler);
+  }, delay);
 }
 
 async function onCanvasClick(shuffledPieces, resizedImg, ctx, event) {
@@ -393,9 +395,7 @@ replayButton.addEventListener('click', async () => {
   replayButton.classList.add('hidden');
   resetTimer();
   const resizedImg = await loadImage(window.imageSrc);
-  setTimeout(() => {
-    initPuzzle(resizedImg);
-  }, 500);
+  initPuzzle(resizedImg);
 });
 
 function navigateToLeaderboard() {
