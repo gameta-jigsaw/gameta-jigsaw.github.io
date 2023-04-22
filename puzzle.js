@@ -361,7 +361,16 @@ async function onCanvasClick(shuffledPieces, resizedImg, ctx, event) {
       isTimerStarted = false;
       replayButton.classList.remove('hidden');
       replayButton.disabled = true; // Disable the button
+
+      let countdown = 5;
+      const countdownInterval = setInterval(() => {
+        replayButton.textContent = `Replay (${countdown})`;
+        countdown--;
+      }, 1000);
+
       setTimeout(() => {
+        clearInterval(countdownInterval);
+        replayButton.textContent = 'Replay';
         replayButton.disabled = false; // Enable the button after 5 seconds
       }, 5000);
     }
