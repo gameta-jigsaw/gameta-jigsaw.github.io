@@ -154,7 +154,9 @@ function createShuffledPieces() {
       emptyPieceIndex = randomMove;
     }
   } while (isSolved(pieces));
-
+    
+  emptyPieceIndex = pieces.indexOf(pieceCount - 1);
+    
   return pieces;
 }
 
