@@ -133,7 +133,7 @@ function resetTimer() {
   document.getElementById('timer').textContent = '00:00';
 }
 
-async function createShuffledPieces() {
+function createShuffledPieces() {
   isShuffling = true;
   const pieceCount = gridSize * gridSize;
   const pieces = Array.from({ length: pieceCount }, (_, i) => i);
