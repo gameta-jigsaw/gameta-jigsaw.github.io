@@ -38,6 +38,7 @@ let currentShuffledPieces = [];
 let isTimerStarted = false;
 let imageSrc = '';
 let puzzleSolved = false;
+let isShuffling = false;
 
 
 function loadImage(src) {
@@ -132,18 +133,16 @@ function resetTimer() {
   document.getElementById('timer').textContent = '00:00';
 }
 
-function createShuffledPieces(previousShuffledPieces) {
+async function createShuffledPieces() {
+  isShuffling = true;
   const pieceCount = gridSize * gridSize;
   const pieces = Array.from({ length: pieceCount }, (_, i) => i);
 
   const numberOfMoves = 200; // Adjust this value to change the difficulty level
 
   let emptyPieceIndex = pieceCount - 1;
-  let newShuffledPieces;
 
   do {
-    newShuffledPieces = [...pieces];
-
     for (let i = 0; i < numberOfMoves; i++) {
       const possibleMoves = [
         emptyPieceIndex - 1, // left
@@ -154,13 +153,15 @@ function createShuffledPieces(previousShuffledPieces) {
 
       const randomMove = possibleMoves[Math.floor(Math.random() * possibleMoves.length)];
 
-      swapPieces(newShuffledPieces, randomMove, emptyPieceIndex);
+      swapPieces(pieces, randomMove, emptyPieceIndex);
       emptyPieceIndex = randomMove;
     }
-  } while (isSolved(newShuffledPieces) || JSON.stringify(newShuffledPieces) === JSON.stringify(previousShuffledPieces));
+  } while (isSolved(pieces));
 
-  return newShuffledPieces;
+  isShuffling = false;
+  return pieces;
 }
+
 
 function areSimilar(pieces1, pieces2) {
   if (pieces1.length !== pieces2.length) return false;
