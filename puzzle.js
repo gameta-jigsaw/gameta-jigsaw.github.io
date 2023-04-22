@@ -360,6 +360,10 @@ async function onCanvasClick(shuffledPieces, resizedImg, ctx, event) {
       stopTimer();
       isTimerStarted = false;
       replayButton.classList.remove('hidden');
+      replayButton.disabled = true; // Disable the button
+      setTimeout(() => {
+        replayButton.disabled = false; // Enable the button after 5 seconds
+      }, 5000);
     }
   }
 }
