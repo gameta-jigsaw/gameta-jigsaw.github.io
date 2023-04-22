@@ -131,7 +131,7 @@ function resetTimer() {
   document.getElementById('timer').textContent = '00:00';
 }
 
-function createShuffledPieces() {
+function createShuffledPieces(currentShuffledPieces) {
   const pieceCount = gridSize * gridSize;
   const pieces = Array.from({ length: pieceCount }, (_, i) => i);
 
@@ -154,7 +154,7 @@ function createShuffledPieces() {
       swapPieces(pieces, randomMove, emptyPieceIndex);
       emptyPieceIndex = randomMove;
     }
-  } while (isSolved(pieces) || areSimilar(shuffledPieces, pieces));
+  } while (isSolved(pieces) || areSimilar(currentShuffledPieces, pieces));
 
   return pieces;
 }
@@ -332,7 +332,7 @@ function initializeTimer() {
 async function initPuzzle(resizedImg) {
   puzzleSolved = false;
   const ctx = canvas.getContext('2d');
-  const shuffledPieces = createShuffledPieces();
+  const shuffledPieces = createShuffledPieces(currentShuffledPieces);
   drawPiecesOnCanvas(ctx, shuffledPieces, resizedImg, pieceSize);
   initClickEventListener(shuffledPieces, resizedImg, ctx);
 }
