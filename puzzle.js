@@ -252,7 +252,7 @@ function isSolved(pieces) {
 }
 
 function isValidNickname(nickname) {
-  const regex = /^[a-zA-Z0-9\s]+#[0-9]{4}$/;
+  const regex = /^[a-zA-Z0-9\s|]+#[0-9]{4}$/;
   return regex.test(nickname);
 }
 
