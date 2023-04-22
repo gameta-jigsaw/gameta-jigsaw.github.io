@@ -132,16 +132,18 @@ function resetTimer() {
   document.getElementById('timer').textContent = '00:00';
 }
 
-function createShuffledPieces(currentShuffledPieces) {
+function createShuffledPieces(previousShuffledPieces) {
   const pieceCount = gridSize * gridSize;
   const pieces = Array.from({ length: pieceCount }, (_, i) => i);
 
   const numberOfMoves = 200; // Adjust this value to change the difficulty level
 
   let emptyPieceIndex = pieceCount - 1;
+  let newShuffledPieces;
 
-  // Ensure that the new shuffled pieces are different from the previous game
   do {
+    newShuffledPieces = [...pieces];
+
     for (let i = 0; i < numberOfMoves; i++) {
       const possibleMoves = [
         emptyPieceIndex - 1, // left
@@ -152,12 +154,12 @@ function createShuffledPieces(currentShuffledPieces) {
 
       const randomMove = possibleMoves[Math.floor(Math.random() * possibleMoves.length)];
 
-      swapPieces(pieces, randomMove, emptyPieceIndex);
+      swapPieces(newShuffledPieces, randomMove, emptyPieceIndex);
       emptyPieceIndex = randomMove;
     }
-  } while (isSolved(pieces) || areSimilar(currentShuffledPieces, pieces));
+  } while (isSolved(newShuffledPieces) || JSON.stringify(newShuffledPieces) === JSON.stringify(previousShuffledPieces));
 
-  return pieces;
+  return newShuffledPieces;
 }
 
 function areSimilar(pieces1, pieces2) {
@@ -335,7 +337,7 @@ async function initPuzzle(resizedImg) {
   const ctx = canvas.getContext('2d');
   currentShuffledPieces = createShuffledPieces(currentShuffledPieces);
   drawPiecesOnCanvas(ctx, currentShuffledPieces, resizedImg, pieceSize);
-  initClickEventListener(currentShuffledPieces, resizedImg, ctx, 5000);
+  initClickEventListener(currentShuffledPieces, resizedImg, ctx);
 }
 
 function initClickEventListener(shuffledPieces, resizedImg, ctx, delay = 0) {
