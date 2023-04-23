@@ -161,17 +161,17 @@ function shufflePieces(pieces, emptyPieceIndex, numberOfMoves, gridSize, callbac
   }, 0);
 }
 
-function createShuffledPieces() {
-  const pieceCount = gridSize * gridSize;
-  const pieces = Array.from({ length: pieceCount }, (_, i) => i);
-  let emptyPieceIndex = pieceCount - 1;
-  
+function createShuffledPieces(originalPieces) {
+  const shuffledPieces = [...originalPieces];
+  const emptyPieceIndex = findEmptyPiece(shuffledPieces);
+  const numberOfMoves = 200;
+
   return new Promise((resolve) => {
-    shufflePieces(pieces, emptyPieceIndex, 200, gridSize, () => {
-      if (isSolved(pieces) || !isSolvable(pieces, gridSize)) {
-        createShuffledPieces().then(resolve);
+    shufflePieces(shuffledPieces, emptyPieceIndex, numberOfMoves, gridSize, () => {
+      if (isSolvable(shuffledPieces, gridSize)) {
+        resolve(shuffledPieces);
       } else {
-        resolve(pieces);
+        resolve(createShuffledPieces(originalPieces));
       }
     });
   });
