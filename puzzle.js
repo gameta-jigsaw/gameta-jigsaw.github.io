@@ -312,7 +312,7 @@ async function submitNickname() {
   }
 }
 
-async function updateCompletionCount(nickname, powerUpCount) {
+async function updateCompletionCount(nickname, powerUpCount = 0) {
   const lowercaseNickname = nickname.toLowerCase().replace('#', '_');
   const nicknamesRef = ref(database, 'nicknames');
   const nicknameRef = child(nicknamesRef, lowercaseNickname);
@@ -321,7 +321,8 @@ async function updateCompletionCount(nickname, powerUpCount) {
   if (snapshot.exists()) {
     const data = snapshot.val();
     const updatedCompletionCount = data.completionCount + 1;
-    set(nicknameRef, { completionCount: updatedCompletionCount, powerUpCount: data.powerUpCount + powerUpCount });
+    const updatedPowerUpCount = (data.powerUpCount || 0) + powerUpCount;
+    set(nicknameRef, { completionCount: updatedCompletionCount, powerUpCount: updatedPowerUpCount });
   } else {
     set(nicknameRef, { completionCount: 1, powerUpCount });
   }
@@ -382,7 +383,7 @@ async function onCanvasClick(shuffledPieces, resizedImg, ctx, event) {
       const completionTime = getFormattedTime();
       const nickname = document.getElementById('nickname').value;
       const powerUpCount = elapsedMilliseconds > maxTime ? 1 : 0;
-      await updateCompletionCount(nickname, powerUpCount);
+      await updateCompletionCount(nickname, 0);
       alert(`Congratulations! You solved the puzzle in ${completionTime}!`);
       stopTimer();
       isTimerStarted = false;
