@@ -134,30 +134,34 @@ function resetTimer() {
 }
 
 function createShuffledPieces() {
+  isShuffling = true;
   const pieceCount = gridSize * gridSize;
   const pieces = Array.from({ length: pieceCount }, (_, i) => i);
 
+  const numberOfMoves = 200; // Adjust this value to change the difficulty level
+
   let emptyPieceIndex = pieceCount - 1;
-  let numberOfMoves = 200; // Adjust this value to change the difficulty level
 
-  while (numberOfMoves > 0) {
-    const possibleMoves = [
-      emptyPieceIndex - 1, // left
-      emptyPieceIndex + 1, // right
-      emptyPieceIndex - gridSize, // up
-      emptyPieceIndex + gridSize, // down
-    ].filter((move) => isValidMove(move, emptyPieceIndex, gridSize));
+  do {
+    for (let i = 0; i < numberOfMoves; i++) {
+      const possibleMoves = [
+        emptyPieceIndex - 1, // left
+        emptyPieceIndex + 1, // right
+        emptyPieceIndex - gridSize, // up
+        emptyPieceIndex + gridSize, // down
+      ].filter((move) => isValidMove(move, emptyPieceIndex, gridSize));
 
-    const randomMove = possibleMoves[Math.floor(Math.random() * possibleMoves.length)];
+      const randomMove = possibleMoves[Math.floor(Math.random() * possibleMoves.length)];
 
-    swapPieces(pieces, randomMove, emptyPieceIndex);
-    emptyPieceIndex = randomMove;
+      swapPieces(pieces, randomMove, emptyPieceIndex);
+      emptyPieceIndex = randomMove;
+    }
+  } while (isSolved(pieces));
 
-    numberOfMoves--;
-  }
-  
+  isShuffling = false;
   return pieces;
 }
+
 
 function areSimilar(pieces1, pieces2) {
   if (pieces1.length !== pieces2.length) return false;
@@ -332,17 +336,9 @@ function initializeTimer() {
 async function initPuzzle(resizedImg) {
   puzzleSolved = false;
   const ctx = canvas.getContext('2d');
-
-  currentShuffledPieces = createShuffledPieces();
-  
-  // Use setTimeout to allow the browser to update the UI before shuffling
-  setTimeout(() => {
-    while (isSolved(currentShuffledPieces) || !isSolvable(currentShuffledPieces, gridSize)) {
-      currentShuffledPieces = createShuffledPieces();
-    }
-    drawPiecesOnCanvas(ctx, currentShuffledPieces, resizedImg, pieceSize);
-    initClickEventListener(currentShuffledPieces, resizedImg, ctx);
-  }, 0);
+  currentShuffledPieces = createShuffledPieces(currentShuffledPieces);
+  drawPiecesOnCanvas(ctx, currentShuffledPieces, resizedImg, pieceSize);
+  initClickEventListener(currentShuffledPieces, resizedImg, ctx);
 }
 
 function initClickEventListener(shuffledPieces, resizedImg, ctx, delay = 0) {
