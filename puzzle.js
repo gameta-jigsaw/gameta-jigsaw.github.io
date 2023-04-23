@@ -149,10 +149,15 @@ function shufflePieces(pieces, emptyPieceIndex, numberOfMoves, gridSize, callbac
 
     const randomMove = possibleMoves[Math.floor(Math.random() * possibleMoves.length)];
 
-    swapPieces(pieces, randomMove, emptyPieceIndex);
-    emptyPieceIndex = randomMove;
+    if (randomMove !== lastMove) {
+      swapPieces(pieces, randomMove, emptyPieceIndex);
+      emptyPieceIndex = randomMove;
+      lastMove = emptyPieceIndex;
 
-    shufflePieces(pieces, emptyPieceIndex, numberOfMoves - 1, gridSize, callback);
+      shufflePieces(pieces, emptyPieceIndex, numberOfMoves - 1, gridSize, callback);
+    } else {
+      shufflePieces(pieces, emptyPieceIndex, numberOfMoves, gridSize, callback);
+    }
   }, 0);
 }
 
