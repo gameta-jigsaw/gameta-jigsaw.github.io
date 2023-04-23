@@ -133,40 +133,43 @@ function resetTimer() {
   document.getElementById('timer').textContent = '00:00';
 }
 
-async function createShuffledPieces() {
-  isShuffling = true;
+function shufflePieces(pieces, emptyPieceIndex, numberOfMoves, gridSize, callback) {
+  if (numberOfMoves <= 0) {
+    callback();
+    return;
+  }
+
+  setTimeout(() => {
+    const possibleMoves = [
+      emptyPieceIndex - 1, // left
+      emptyPieceIndex + 1, // right
+      emptyPieceIndex - gridSize, // up
+      emptyPieceIndex + gridSize, // down
+    ].filter((move) => isValidMove(move, emptyPieceIndex, gridSize));
+
+    const randomMove = possibleMoves[Math.floor(Math.random() * possibleMoves.length)];
+
+    swapPieces(pieces, randomMove, emptyPieceIndex);
+    emptyPieceIndex = randomMove;
+
+    shufflePieces(pieces, emptyPieceIndex, numberOfMoves - 1, gridSize, callback);
+  }, 0);
+}
+
+function createShuffledPieces() {
   const pieceCount = gridSize * gridSize;
   const pieces = Array.from({ length: pieceCount }, (_, i) => i);
-
   let emptyPieceIndex = pieceCount - 1;
-
-  await new Promise((resolve) => {
-    setTimeout(() => {
-      do {
-        let numberOfMoves = 200; // Adjust this value to change the difficulty level
-
-        while (numberOfMoves > 0) {
-          const possibleMoves = [
-            emptyPieceIndex - 1, // left
-            emptyPieceIndex + 1, // right
-            emptyPieceIndex - gridSize, // up
-            emptyPieceIndex + gridSize, // down
-          ].filter((move) => isValidMove(move, emptyPieceIndex, gridSize));
-
-          const randomMove = possibleMoves[Math.floor(Math.random() * possibleMoves.length)];
-
-          swapPieces(pieces, randomMove, emptyPieceIndex);
-          emptyPieceIndex = randomMove;
-
-          numberOfMoves--;
-        }
-      } while (isSolved(pieces) || !isSolvable(pieces, gridSize));
-      resolve();
-    }, 0);
+  
+  return new Promise((resolve) => {
+    shufflePieces(pieces, emptyPieceIndex, 200, gridSize, () => {
+      if (isSolved(pieces) || !isSolvable(pieces, gridSize)) {
+        createShuffledPieces().then(resolve);
+      } else {
+        resolve(pieces);
+      }
+    });
   });
-
-  isShuffling = false;
-  return pieces;
 }
 
 function areSimilar(pieces1, pieces2) {
