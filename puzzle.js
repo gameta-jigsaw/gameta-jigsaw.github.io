@@ -133,49 +133,37 @@ function resetTimer() {
   document.getElementById('timer').textContent = '00:00';
 }
 
-function shufflePieces(pieces, emptyPieceIndex, numberOfMoves, gridSize, callback, lastMove = -1) {
-  if (numberOfMoves <= 0) {
-    callback();
-    return;
-  }
+function createShuffledPieces() {
+  isShuffling = true;
+  const pieceCount = gridSize * gridSize;
+  const pieces = Array.from({ length: pieceCount }, (_, i) => i);
 
-  setTimeout(() => {
-    const possibleMoves = [
-      emptyPieceIndex - 1, // left
-      emptyPieceIndex + 1, // right
-      emptyPieceIndex - gridSize, // up
-      emptyPieceIndex + gridSize, // down
-    ].filter((move) => isValidMove(move, emptyPieceIndex, gridSize));
+  let emptyPieceIndex = pieceCount - 1;
 
-    const randomMove = possibleMoves[Math.floor(Math.random() * possibleMoves.length)];
+  do {
+    let numberOfMoves = 200; // Adjust this value to change the difficulty level
 
-    if (randomMove !== lastMove) {
+    while (numberOfMoves > 0) {
+      const possibleMoves = [
+        emptyPieceIndex - 1, // left
+        emptyPieceIndex + 1, // right
+        emptyPieceIndex - gridSize, // up
+        emptyPieceIndex + gridSize, // down
+      ].filter((move) => isValidMove(move, emptyPieceIndex, gridSize));
+
+      const randomMove = possibleMoves[Math.floor(Math.random() * possibleMoves.length)];
+
       swapPieces(pieces, randomMove, emptyPieceIndex);
       emptyPieceIndex = randomMove;
-      lastMove = emptyPieceIndex;
 
-      shufflePieces(pieces, emptyPieceIndex, numberOfMoves - 1, gridSize, callback, lastMove);
-    } else {
-      shufflePieces(pieces, emptyPieceIndex, numberOfMoves, gridSize, callback, lastMove);
+      numberOfMoves--;
     }
-  }, 0);
+  } while (isSolved(pieces) || !isSolvable(pieces, gridSize));
+
+  isShuffling = false;
+  return pieces;
 }
 
-function createShuffledPieces(originalPieces) {
-  const shuffledPieces = [...originalPieces];
-  const emptyPieceIndex = findEmptyPiece(shuffledPieces);
-  const numberOfMoves = 200;
-
-  return new Promise((resolve) => {
-    shufflePieces(shuffledPieces, emptyPieceIndex, numberOfMoves, gridSize, () => {
-      if (isSolvable(shuffledPieces, gridSize)) {
-        resolve(shuffledPieces);
-      } else {
-        resolve(createShuffledPieces(originalPieces));
-      }
-    });
-  });
-}
 
 function areSimilar(pieces1, pieces2) {
   if (pieces1.length !== pieces2.length) return false;
@@ -350,7 +338,7 @@ function initializeTimer() {
 async function initPuzzle(resizedImg) {
   puzzleSolved = false;
   const ctx = canvas.getContext('2d');
-  currentShuffledPieces = await createShuffledPieces(currentShuffledPieces);
+  currentShuffledPieces = createShuffledPieces(currentShuffledPieces);
   drawPiecesOnCanvas(ctx, currentShuffledPieces, resizedImg, pieceSize);
   initClickEventListener(currentShuffledPieces, resizedImg, ctx);
 }
