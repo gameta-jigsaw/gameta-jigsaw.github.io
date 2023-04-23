@@ -40,6 +40,8 @@ let imageSrc = '';
 let puzzleSolved = false;
 let isShuffling = false;
 let currentEventHandler = null;
+let elapsedMilliseconds = 0;
+let maxTime = 3 * 60 * 1000;
 
 
 function loadImage(src) {
@@ -112,20 +114,27 @@ function startTimer() {
 
 function updateTimer() {
   const currentTime = new Date();
-  const elapsedTime = Math.floor((currentTime - startTime) / 1000);
+  elapsedMilliseconds = currentTime - startTime;
+  const elapsedTime = Math.floor(elapsedMilliseconds / 1000);
   const minutes = Math.floor(elapsedTime / 60);
   const seconds = elapsedTime % 60;
-  const centiseconds = Math.floor((currentTime - startTime) / 10) % 100;
+  const centiseconds = Math.floor(elapsedMilliseconds / 10) % 100;
   document.getElementById('timer').textContent = `${minutes
     .toString()
     .padStart(2, '0')}:${seconds
     .toString()
     .padStart(2, '0')}.${centiseconds.toString().padStart(2, '0')}`;
+
+  if (elapsedMilliseconds >= maxTime) {
+    stopTimer();
+    alert('Time is up! You can use a power-up to get an extra 15 seconds.');
+    usePowerUp();
+  }
 }
 
 function stopTimer() {
   clearInterval(timerInterval);
-  isTimerStarted = false;
+  timerInterval = null;
 }
 
 function resetTimer() {
@@ -281,7 +290,7 @@ async function submitNickname() {
     const snapshot = await get(nicknameRef);
 
     if (!snapshot.exists()) {
-      set(nicknameRef, { completionCount: 0 });
+      set(nicknameRef, { completionCount: 0, completionCount: 0 });
     }
 
     // Call initPuzzle() after submitting the nickname
@@ -303,7 +312,7 @@ async function submitNickname() {
   }
 }
 
-async function updateCompletionCount(nickname) {
+async function updateCompletionCount(nickname, powerUpCount) {
   const lowercaseNickname = nickname.toLowerCase().replace('#', '_');
   const nicknamesRef = ref(database, 'nicknames');
   const nicknameRef = child(nicknamesRef, lowercaseNickname);
@@ -312,19 +321,18 @@ async function updateCompletionCount(nickname) {
   if (snapshot.exists()) {
     const data = snapshot.val();
     const updatedCompletionCount = data.completionCount + 1;
-    set(nicknameRef, { completionCount: updatedCompletionCount });
+    set(nicknameRef, { completionCount: updatedCompletionCount, powerUpCount: data.powerUpCount + powerUpCount });
   } else {
-    set(nicknameRef, { completionCount: 1 });
+    set(nicknameRef, { completionCount: 1, powerUpCount });
   }
 }
 
 function getFormattedTime() {
-  const currentTime = new Date();
-  const elapsedTime = Math.floor((currentTime - startTime) / 1000);
+  const elapsedTime = Math.floor(elapsedMilliseconds / 1000);
   const minutes = Math.floor(elapsedTime / 60);
   const seconds = elapsedTime % 60;
-  const centiseconds = Math.floor((currentTime - startTime) / 10) % 100;
-  return `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}.${centiseconds.toString().padStart(2, '0')}`;
+  const centiseconds = Math.floor(elapsedMilliseconds / 10) % 100;
+  return `${minutes.toString().padStart  (2, '0')}:${seconds.toString().padStart(2, '0')}.${centiseconds.toString().padStart(2, '0')}`;
 }
 
 function initializeTimer() {
@@ -373,7 +381,8 @@ async function onCanvasClick(shuffledPieces, resizedImg, ctx, event) {
       puzzleSolved = true;
       const completionTime = getFormattedTime();
       const nickname = document.getElementById('nickname').value;
-      await updateCompletionCount(nickname);
+      const powerUpCount = elapsedMilliseconds > maxTime ? 1 : 0;
+      await updateCompletionCount(nickname, powerUpCount);
       alert(`Congratulations! You solved the puzzle in ${completionTime}!`);
       stopTimer();
       isTimerStarted = false;
@@ -407,3 +416,15 @@ replayButton.addEventListener('click', async () => {
 function navigateToLeaderboard() {
   window.location.href = 'jigsaw-stats.html';
 }
+
+function usePowerUp() {
+  const remainingTime = maxTime - elapsedMilliseconds;
+  if (remainingTime <= 0) {
+    const powerUpTime = 15000; // 15 seconds in milliseconds
+    maxTime += powerUpTime;
+    const nickname = document.getElementById('nickname').value;
+    updateCompletionCount(nickname, 1);
+    startTimer();
+  }
+}
+
