@@ -39,6 +39,7 @@ let isTimerStarted = false;
 let imageSrc = '';
 let puzzleSolved = false;
 let isShuffling = false;
+let currentEventHandler = null;
 
 
 function loadImage(src) {
@@ -342,10 +343,12 @@ async function initPuzzle(resizedImg) {
 }
 
 function initClickEventListener(shuffledPieces, resizedImg, ctx, delay = 0) {
-  const eventHandler = onCanvasClick.bind(null, shuffledPieces, resizedImg, ctx);
-  canvas.removeEventListener('click', eventHandler);
+  if (currentEventHandler !== null) {
+    canvas.removeEventListener('click', currentEventHandler);
+  }
+  currentEventHandler = onCanvasClick.bind(null, shuffledPieces, resizedImg, ctx);
   setTimeout(() => {
-    canvas.addEventListener('click', eventHandler);
+    canvas.addEventListener('click', currentEventHandler);
   }, delay);
 }
 
