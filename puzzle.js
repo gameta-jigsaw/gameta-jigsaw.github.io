@@ -336,7 +336,7 @@ function initializeTimer() {
 async function initPuzzle(resizedImg) {
   puzzleSolved = false;
   const ctx = canvas.getContext('2d');
-  currentShuffledPieces = createShuffledPieces(currentShuffledPieces);
+  currentShuffledPieces = createShuffledPieces(); // Remove the argument here
   drawPiecesOnCanvas(ctx, currentShuffledPieces, resizedImg, pieceSize);
   initClickEventListener(currentShuffledPieces, resizedImg, ctx);
 }
