@@ -133,7 +133,7 @@ function resetTimer() {
   document.getElementById('timer').textContent = '00:00';
 }
 
-function shufflePieces(pieces, emptyPieceIndex, numberOfMoves, gridSize, callback) {
+function shufflePieces(pieces, emptyPieceIndex, numberOfMoves, gridSize, callback, lastMove = -1) {
   if (numberOfMoves <= 0) {
     callback();
     return;
@@ -154,9 +154,9 @@ function shufflePieces(pieces, emptyPieceIndex, numberOfMoves, gridSize, callbac
       emptyPieceIndex = randomMove;
       lastMove = emptyPieceIndex;
 
-      shufflePieces(pieces, emptyPieceIndex, numberOfMoves - 1, gridSize, callback);
+      shufflePieces(pieces, emptyPieceIndex, numberOfMoves - 1, gridSize, callback, lastMove);
     } else {
-      shufflePieces(pieces, emptyPieceIndex, numberOfMoves, gridSize, callback);
+      shufflePieces(pieces, emptyPieceIndex, numberOfMoves, gridSize, callback, lastMove);
     }
   }, 0);
 }
