@@ -114,23 +114,26 @@ function startTimer() {
 
 function updateTimer() {
   const currentTime = new Date();
-  elapsedMilliseconds = currentTime - startTime;
-  const elapsedTime = Math.floor(elapsedMilliseconds / 1000);
-  const minutes = Math.floor(elapsedTime / 60);
-  const seconds = elapsedTime % 60;
-  const centiseconds = Math.floor(elapsedMilliseconds / 10) % 100;
-  document.getElementById('timer').textContent = `${minutes
-    .toString()
-    .padStart(2, '0')}:${seconds
-    .toString()
-    .padStart(2, '0')}.${centiseconds.toString().padStart(2, '0')}`;
+  const elapsedTime = currentTime - startTime;
 
-  if (elapsedMilliseconds >= maxTime) {
+  if (elapsedTime >= maxTime) {
     stopTimer();
-    alert('Time is up! You can use a power-up to get an extra 15 seconds.');
-    usePowerUp();
+    alert("Time's up! Use a power-up for 15 more seconds or start a new game.");
+    // Call usePowerUp() function here if you want to automatically use a power-up when the time runs out
+    return;
   }
+
+  const elapsedSeconds = Math.floor(elapsedTime / 1000);
+  const minutes = Math.floor(elapsedSeconds / 60);
+  const seconds = elapsedSeconds % 60;
+  const centiseconds = Math.floor(elapsedTime / 10) % 100;
+  document.getElementById("timer").textContent = `${minutes
+    .toString()
+    .padStart(2, "0")}:${seconds
+    .toString()
+    .padStart(2, "0")}.${centiseconds.toString().padStart(2, "0")}`;
 }
+
 
 function stopTimer() {
   clearInterval(timerInterval);
@@ -418,14 +421,28 @@ function navigateToLeaderboard() {
   window.location.href = 'jigsaw-stats.html';
 }
 
-function usePowerUp() {
-  const remainingTime = maxTime - elapsedMilliseconds;
-  if (remainingTime <= 0) {
-    const powerUpTime = 15000; // 15 seconds in milliseconds
-    maxTime += powerUpTime;
-    const nickname = document.getElementById('nickname').value;
-    updateCompletionCount(nickname, 1);
-    startTimer();
+async function usePowerUp() {
+  const nickname = document.getElementById("nickname").value;
+  const powerUpCount = await getPowerUpCount(nickname);
+
+  if (powerUpCount > 0) {
+    maxTime += 15000; // Add 15 seconds to the max time
+    await updateCompletionCount(nickname, -1); // Decrease the user's power-up count by 1
+  } else {
+    alert("You have no power-ups left!");
   }
 }
 
+async function getPowerUpCount(nickname) {
+  const lowercaseNickname = nickname.toLowerCase().replace("#", "_");
+  const nicknamesRef = ref(database, "nicknames");
+  const nicknameRef = child(nicknamesRef, lowercaseNickname);
+  const snapshot = await get(nicknameRef);
+
+  if (snapshot.exists()) {
+    const data = snapshot.val();
+    return data.powerUpCount || 0;
+  }
+
+  return 0;
+}
